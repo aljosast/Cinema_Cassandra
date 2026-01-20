@@ -1,0 +1,169 @@
+.CardRow{
+    padding: 10px;
+    display : flex;
+    background-color: darkslategray;
+    border: solid 1px #f0f0f0;
+    border-radius: 15px;
+    color: #ccc;
+    margin: 5px;
+}
+
+img{
+    margin: 10px, 5px, 10px, 5px;
+    height: 250px;
+    width: 150px;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+input {
+        width: 80%;
+        border: 3px solid darkslategray;
+        padding: 10px;
+        height: 50px;
+        margin: 5px;
+        font-size: large;
+        border-radius: 50px;
+        color: darkslategray;;
+        background-color: inherit;
+}
+
+.image{
+    margin: 10px, 5px, 10px, 5px;
+    height: 320px;
+    width: 210px;
+}
+
+.Container{
+    width: 100%;
+    padding: 5px;
+}
+
+.Row{
+    font-size: xx-large;
+    display: flex;
+    justify-content: space-between;
+}
+
+.row{
+    margin: 10px;
+    padding-left: 10%;
+    min-width: 20px;
+    width: 50%;
+    font-size: xx-large;
+    display: flex;
+    justify-content: start;
+}
+
+.modal {
+    display: None; 
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.modal-content {
+    background-color: darkslategray;
+    color: #ccc;
+    border: solid 1px black;
+    border-radius: 15px;
+    margin: 5% auto;
+    padding: 20px;
+    overflow-y: auto;
+    border: 1px solid #888;
+    width: 80%; 
+    height: 80%;
+}
+.r{
+    margin-top: px;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: x-large;
+}
+
+.close-button{
+    border: 3px solid #f0f0f0;
+    width: 100px;
+    height: 50px;
+    margin: 5%;
+    font-size: x-large;
+    border-radius: 50px;
+    color: #f0f0f0;
+    background-color: inherit;
+}
+
+.button{
+    border: 3px solid darkslategray;
+    width: fit-content;
+    padding: 10px;
+    height: 50px;
+    margin: 5px;
+    font-size: large;
+    border-radius: 50px;
+    color: darkslategray;;
+    background-color: inherit;
+}
+
+.header{
+    width: 100%;
+    height: 150px;
+    padding: 0px;
+    margin: 0px;
+    background-color: darkslategray;
+    color: #f0f0f0;
+}
+
+.title{
+    height: 70%;
+    font-size: 72px;
+    padding-left: 10px;
+    display: flex;
+    justify-content: start;
+}
+
+.option-bar{
+    height: 30%;
+    display: flex;
+    justify-content: end;
+}
+
+.box{
+    margin: 5px;
+    width: 8%;
+    height: 100%;
+    text-align: center;
+    font : 60px;
+}
+
+.inverse{
+    color: darkslategray;
+    background-color: #f0f0f0;
+}
+
+.label{
+    width: 20%;
+}
+.img_box{
+    margin-left: 12%;
+    padding-left: 10%;
+    padding-right: 10%;
+    min-width: 20px;
+    width: 25%;
+    border: solid darkslategrey 1px;
+    text-align: center;
+}
+
+.line{
+    height: 1px;
+    background-color: darkslategray;
+    margin: 10px;
+    width: 75%;
+}
