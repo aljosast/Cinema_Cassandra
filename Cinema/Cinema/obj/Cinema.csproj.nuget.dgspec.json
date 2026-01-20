@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj": {}
+    "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj": {
+    "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj",
+        "projectUniqueName": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj",
         "projectName": "Cinema",
-        "projectPath": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj",
+        "projectPath": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj",
         "packagesPath": "C:\\Users\\Milos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\obj\\",
+        "outputPath": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Milos\\AppData\\Roaming\\NuGet\\NuGet.Config",

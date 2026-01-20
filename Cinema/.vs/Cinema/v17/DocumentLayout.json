@@ -1,34 +1,42 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Milos\\source\\repos\\Cinema\\",
+  "WorkspaceRootPath": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\controllers\\filmcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\controllers\\filmcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\controllers\\filmcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\dbmanager\\providers\\filmprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\dbmanager\\providers\\filmprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\wwwroot\\js\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\wwwroot\\js\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\controllers\\dto\\filmdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\controllers\\dto\\filmdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\wwwroot\\js\\film.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\wwwroot\\js\\film.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\appsettings.local.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\appsettings.local.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\dbmanager\\entities\\film.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\dbmanager\\providers\\filmprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\dbmanager\\providers\\filmprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\dbscripts\\createtables.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\dbscripts\\createtables.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\desktop\\github\\cassandra\\cinema_cassandra\\cinema\\cinema\\dbmanager\\entities\\film.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\dbmanager\\entities\\film.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\dbmanager\\entities\\glumac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\dbmanager\\entities\\glumac.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|c:\\users\\milos\\source\\repos\\cinema\\cinema\\controllers\\dto\\tools.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2F4CF314-89F6-4F05-96FF-66F5C72781AB}|Cinema\\Cinema.csproj|solutionrelative:cinema\\controllers\\dto\\tools.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,98 +46,118 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Glumac.cs",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\DBManager\\Entities\\Glumac.cs",
-              "RelativeDocumentMoniker": "Cinema\\DBManager\\Entities\\Glumac.cs",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\DBManager\\Entities\\Glumac.cs",
-              "RelativeToolTip": "Cinema\\DBManager\\Entities\\Glumac.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T19:03:10.737Z",
+              "DocumentIndex": 1,
+              "Title": "main.js",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\wwwroot\\js\\main.js",
+              "RelativeDocumentMoniker": "Cinema\\wwwroot\\js\\main.js",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\wwwroot\\js\\main.js",
+              "RelativeToolTip": "Cinema\\wwwroot\\js\\main.js",
+              "ViewState": "AQIAAIsBAAAAAAAAAAAwwKEBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-01-20T17:17:15.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Tools.cs",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Controllers\\DTO\\Tools.cs",
-              "RelativeDocumentMoniker": "Cinema\\Controllers\\DTO\\Tools.cs",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Controllers\\DTO\\Tools.cs",
-              "RelativeToolTip": "Cinema\\Controllers\\DTO\\Tools.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACsAAAAIAAAA",
+              "DocumentIndex": 3,
+              "Title": "Film.js",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\wwwroot\\js\\Film.js",
+              "RelativeDocumentMoniker": "Cinema\\wwwroot\\js\\Film.js",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\wwwroot\\js\\Film.js",
+              "RelativeToolTip": "Cinema\\wwwroot\\js\\Film.js",
+              "ViewState": "AQIAALIAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-01-20T17:17:11.941Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CreateTables.txt",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\DBScripts\\CreateTables.txt",
+              "RelativeDocumentMoniker": "Cinema\\DBScripts\\CreateTables.txt",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\DBScripts\\CreateTables.txt",
+              "RelativeToolTip": "Cinema\\DBScripts\\CreateTables.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-01-20T16:58:35.197Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "appsettings.Local.json",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\appsettings.Local.json",
+              "RelativeDocumentMoniker": "Cinema\\appsettings.Local.json",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\appsettings.Local.json",
+              "RelativeToolTip": "Cinema\\appsettings.Local.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-20T16:12:09.128Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Program.cs",
+              "RelativeDocumentMoniker": "Cinema\\Program.cs",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Program.cs",
+              "RelativeToolTip": "Cinema\\Program.cs",
+              "ViewState": "AQIAACQAAAAAAAAAAAAAAAAAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T15:50:47.484Z",
+              "WhenOpened": "2026-01-20T15:54:42.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FilmDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Controllers\\DTO\\FilmDTO.cs",
+              "RelativeDocumentMoniker": "Cinema\\Controllers\\DTO\\FilmDTO.cs",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Controllers\\DTO\\FilmDTO.cs",
+              "RelativeToolTip": "Cinema\\Controllers\\DTO\\FilmDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwA0AAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T14:51:38.936Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "FilmController.cs",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Controllers\\FilmController.cs",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Controllers\\FilmController.cs",
               "RelativeDocumentMoniker": "Cinema\\Controllers\\FilmController.cs",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Controllers\\FilmController.cs",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Controllers\\FilmController.cs",
               "RelativeToolTip": "Cinema\\Controllers\\FilmController.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAowJoAAAAsAAAA",
+              "ViewState": "AQIAAKMAAAAAAAAAAADwv2oAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T16:21:29.073Z",
+              "WhenOpened": "2026-01-20T14:50:09.084Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Film.cs",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\DBManager\\Entities\\Film.cs",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\DBManager\\Entities\\Film.cs",
               "RelativeDocumentMoniker": "Cinema\\DBManager\\Entities\\Film.cs",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\DBManager\\Entities\\Film.cs",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\DBManager\\Entities\\Film.cs",
               "RelativeToolTip": "Cinema\\DBManager\\Entities\\Film.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAaAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T13:55:32.608Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-28T13:55:32.608Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Program.cs",
-              "RelativeDocumentMoniker": "Cinema\\Program.cs",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Program.cs",
-              "RelativeToolTip": "Cinema\\Program.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAAABcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T14:39:38.402Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Cinema\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Cinema\\Properties\\launchSettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-01-26T18:05:48.287Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "FilmProvider.cs",
-              "DocumentMoniker": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\DBManager\\Providers\\FilmProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\DBManager\\Providers\\FilmProvider.cs",
               "RelativeDocumentMoniker": "Cinema\\DBManager\\Providers\\FilmProvider.cs",
-              "ToolTip": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\DBManager\\Providers\\FilmProvider.cs",
+              "ToolTip": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\DBManager\\Providers\\FilmProvider.cs",
               "RelativeToolTip": "Cinema\\DBManager\\Providers\\FilmProvider.cs",
-              "ViewState": "AQIAAH8AAAAAAAAAAAAkwLoAAABbAAAA",
+              "ViewState": "AQIAAHQAAAAAAAAAAAAYwEMAAABYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T15:02:07.196Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-27T15:02:07.196Z"
             }
           ]
         }

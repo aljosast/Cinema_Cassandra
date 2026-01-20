@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xXycPqZ4wOs=",
+  "dgSpecHash": "TO06cnyVijg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj",
+  "projectFilePath": "C:\\Users\\Milos\\Desktop\\GitHub\\Cassandra\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Milos\\.nuget\\packages\\cassandracsharpdriver\\3.22.0\\cassandracsharpdriver.3.22.0.nupkg.sha512",
     "C:\\Users\\Milos\\.nuget\\packages\\k4os.compression.lz4\\1.1.11\\k4os.compression.lz4.1.1.11.nupkg.sha512",

@@ -1,0 +1,16 @@
+﻿docker run -d --name cassandra -p 9042:9042 -p 9160:9160 cassandra:3.11
+
+docker exec -it cassandra bash 
+ls
+cd etc
+cd cassandra
+ls
+sudo-apt update
+sudo-apt install nano
+apt-get update
+apt-get install nano
+nano cassandra.yaml
+exit
+
+docker exec -it cassandra cqlsh
+CREATE KEYSPACE cinema WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
