@@ -58,59 +58,36 @@ namespace Cinema.Controllers
         }
 
         [HttpPost("PostaviFilm")]
-        public async Task<IActionResult> PostaviFilm([FromBody] FilmDTO film)
+        public async Task<IActionResult> PostaviFilm([FromForm] FilmDTO film)
         {
             try
             {
-                char[] del = { ' ', ',' };
-                string z = film.Zanr?.Split(del).FirstOrDefault() ?? "Nepoznato";
-                z = string.Concat(z.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                z = Tools.TransliterateToAscii(z);
+                
                 string naziv = string.Concat(film.Naziv.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
                 naziv = Tools.TransliterateToAscii(naziv);
 
-                Console.WriteLine(film.Glumci[0].Ime);
+                var FID = Guid.NewGuid().ToString();
 
                 Film f = new Film
                 {
-                    ID = Guid.NewGuid().ToString(),
+                    ID = FID,
                     Naziv = naziv,
                     Zanr = Tools.TransliterateToAscii(film.Zanr!),
                     Opis = Tools.TransliterateToAscii(film.Opis),
                     DugiOpis = Tools.TransliterateToAscii(film.DugiOpis),
                     Reziser = Tools.TransliterateToAscii(film.Reziser),
                     Glumci = film.Glumci,
-                    Slika = Path.Combine(z, Tools.removeSpace(naziv) + ".jpg")
+                    Slika = Path.Combine(FID + ".jpg")
                 };
 
                 filmProvider.InsertMovie(f);
 
-                return Ok("Film je uspešno postavljen!");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Došlo je do greške: " + ex.Message);
-            }
-        }
-
-        [HttpPost("PostaviSliku")]
-        public async Task<IActionResult> PostaviSliku([FromForm] ImageInfo film)
-        {
-            try
-            {
-                char[] del = { ' ', ',' };
-                string z = film.Zanr?.Split(del).FirstOrDefault() ?? "Nepoznato";
-                z = string.Concat(z.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                z = Tools.TransliterateToAscii(z);
-                string naziv = string.Concat(film.Naziv.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                naziv = Tools.TransliterateToAscii(naziv);
-
                 if (film.Slika != null && film.Slika.Length > 0)
                 {
-                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", z);
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
                     Directory.CreateDirectory(folderPath);
 
-                    var filePath = Path.Combine(folderPath, Tools.removeSpace(naziv) + ".jpg");
+                    var filePath = Path.Combine(folderPath, FID + ".jpg");
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -118,7 +95,7 @@ namespace Cinema.Controllers
                     }
                 }
 
-                return Ok("Slika je uspešno postavljena!");
+                return Ok("Film je uspešno postavljen!");
             }
             catch (Exception ex)
             {
@@ -127,64 +104,35 @@ namespace Cinema.Controllers
         }
 
         [HttpPut("IzmeniFilm")]
-        public async Task<IActionResult> IzmeniFilm([FromBody] FilmDTO film)
+        public async Task<IActionResult> IzmeniFilm([FromForm] FilmDTO film)
         {
             try
             {
-                char[] del = { ' ', ',' };
-                string z = film.Zanr?.Split(del).FirstOrDefault() ?? "Nepoznato";
-                z = string.Concat(z.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                z = Tools.TransliterateToAscii(z);
                 string naziv = string.Concat(film.Naziv.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
                 naziv = Tools.TransliterateToAscii(naziv);
 
-                Console.WriteLine(film.Glumci[0].Ime);
+                var FID = film.Id;
 
                 Film f = new Film
                 {
-                    ID = film.Id,
+                    ID = FID,
                     Naziv = naziv,
                     Zanr = Tools.TransliterateToAscii(film.Zanr!),
                     Opis = Tools.TransliterateToAscii(film.Opis),
                     DugiOpis = Tools.TransliterateToAscii(film.DugiOpis),
                     Reziser = Tools.TransliterateToAscii(film.Reziser),
                     Glumci = film.Glumci,
-                    Slika = Path.Combine(z, Tools.removeSpace(naziv) + ".jpg")
+                    Slika = Path.Combine(FID + ".jpg")
                 };
 
-                filmProvider.UpdateMovie(f);
-
-                return Ok("Film je uspešno postavljen!");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Došlo je do greške: " + ex.Message);
-            }
-        }
-
-        [HttpPut("IzmeniSliku")]
-        public async Task<IActionResult> IzmeniSliku([FromForm] ImageInfo film)
-        {
-            try
-            {
-                char[] del = { ' ', ',' };
-                string z = film.Zanr?.Split(del).FirstOrDefault() ?? "Nepoznato";
-                z = string.Concat(z.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                z = Tools.TransliterateToAscii(z);
-                string naziv = string.Concat(film.Naziv.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                naziv = Tools.TransliterateToAscii(naziv);
+                filmProvider.InsertMovie(f);
 
                 if (film.Slika != null && film.Slika.Length > 0)
                 {
-                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", z);
+                    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
                     Directory.CreateDirectory(folderPath);
 
-                    var filePath = Path.Combine(folderPath, Tools.removeSpace(naziv) + ".jpg");
-
-                    if (System.IO.File.Exists(filePath))
-                    {
-                        System.IO.File.Delete(filePath);
-                    }
+                    var filePath = Path.Combine(folderPath, FID + ".jpg");
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -192,7 +140,7 @@ namespace Cinema.Controllers
                     }
                 }
 
-                return Ok("Slika je uspešno postavljena ili zamenjena!");
+                return Ok("Film je uspešno postavljen!");
             }
             catch (Exception ex)
             {

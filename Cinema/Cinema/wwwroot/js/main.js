@@ -363,47 +363,16 @@ const postaviFilm = async (naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) =>
     
     const formData = new FormData();
     formData.append("Naziv", naziv);
+    formData.append("Id", "a");
+    formData.append("Opis", opis);
+    formData.append("DugiOpis", dugiOpis);
+    formData.append("Reziser", reziser);
     formData.append("Zanr", zanr);
+    formData.append("Glumci", glumci)
     formData.append("Slika", file);
-    
-    const obj = {
-        Id : "",
-        Naziv : naziv,
-        Zanr : zanr,
-        Opis : opis,
-        DugiOpis : dugiOpis,
-        Reziser : reziser,
-        Glumci : glumci
-    }
-
-    const Send = async () => {
+   
         try {
-            if (file !== null){
             const response = await fetch("https://localhost:7172/api/Film/PostaviFilm", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json", 
-                },
-                body: JSON.stringify(obj)
-            });
-    
-            if (response.ok) {
-                const result = await response.text();
-                console.log("Uspeh:", result);
-    
-                Drawpage();
-            } else {
-                console.error("Greška:", response.statusText);
-            }
-        }
-        } catch (error) {
-            console.error("Došlo je do greške:", error);
-        }
-    }
-    
-    if (file){
-        try {
-            const response = await fetch("https://localhost:7172/api/Film/PostaviSliku", {
                 method: "POST",
                 body: formData
             });
@@ -412,17 +381,13 @@ const postaviFilm = async (naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) =>
                 const result = await response.text();
                 console.log("Uspeh:", result);
 
-                Send();
+                Drawpage();
             } else {
                 console.error("Greška:", response.statusText);
             }
         } catch (error) {
             console.error("Došlo je do greške:", error);
         }
-    }
-    else{
-        Send();
-    }
 };
 
 const izmeniFilm = async (id,naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) => {
@@ -431,47 +396,16 @@ const izmeniFilm = async (id,naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) 
     
     const formData = new FormData();
     formData.append("Naziv", naziv);
+    formData.append("Id", id);
+    formData.append("Opis", opis);
+    formData.append("DugiOpis", dugiOpis);
+    formData.append("Reziser", reziser);
     formData.append("Zanr", zanr);
+    formData.append("Glumci", glumci)
     formData.append("Slika", file);
     
-    const obj = {
-        Id : id,
-        Naziv : naziv,
-        Zanr : zanr,
-        Opis : opis,
-        DugiOpis : dugiOpis,
-        Reziser : reziser,
-        Glumci : glumci
-    }
-
-    const Send = async () => {
         try {
-            if (file !== null){
             const response = await fetch("https://localhost:7172/api/Film/IzmeniFilm", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json", 
-                },
-                body: JSON.stringify(obj)
-            });
-    
-            if (response.ok) {
-                const result = await response.text();
-                console.log("Uspeh:", result);
-    
-                Drawpage();
-            } else {
-                console.error("Greška:", response.statusText);
-            }
-        }
-        } catch (error) {
-            console.error("Došlo je do greške:", error);
-        }
-    }
-    
-    if (file){
-        try {
-            const response = await fetch("https://localhost:7172/api/Film/IzmeniSliku", {
                 method: "PUT",
                 body: formData
             });
@@ -480,17 +414,14 @@ const izmeniFilm = async (id,naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) 
                 const result = await response.text();
                 console.log("Uspeh:", result);
 
-                Send();
+                Drawpage();
+
             } else {
                 console.error("Greška:", response.statusText);
             }
         } catch (error) {
             console.error("Došlo je do greške:", error);
         }
-    }
-    else{
-        Send();
-    }
 };
 
 export {
