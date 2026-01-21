@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj": {}
+    "C:\\Users\\Aljosa\\Desktop\\NBP_Project1\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj": {
+    "C:\\Users\\Aljosa\\Desktop\\NBP_Project1\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj",
+        "projectUniqueName": "C:\\Users\\Aljosa\\Desktop\\NBP_Project1\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj",
         "projectName": "Cinema",
-        "projectPath": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\Cinema.csproj",
-        "packagesPath": "C:\\Users\\Milos\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Milos\\source\\repos\\Cinema\\Cinema\\obj\\",
+        "projectPath": "C:\\Users\\Aljosa\\Desktop\\NBP_Project1\\Cinema_Cassandra\\Cinema\\Cinema\\Cinema.csproj",
+        "packagesPath": "C:\\Users\\Aljosa\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Aljosa\\Desktop\\NBP_Project1\\Cinema_Cassandra\\Cinema\\Cinema\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Milos\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Aljosa\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -40,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -74,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
