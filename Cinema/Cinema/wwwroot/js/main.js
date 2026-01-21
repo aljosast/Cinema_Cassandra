@@ -22,6 +22,7 @@ function Drawpage(){
         response => response.json()
         .then(
             data => {
+                console.log(data)
 
                 const button = document.createElement("button");
                 button.innerText = "Novi film"
@@ -97,10 +98,10 @@ function DrawInsertPage(fid = "",naziv = "", zanr = "", opis = "", dugiOpis = ""
         let g = [];
         for (let i in imena){
             const obj = {
-                id : "",
-                ime : imena[i].value,
-                uloga : uloge[i].value,
-                tipUloge : tipUloge[i].value
+                Id : "1",
+                Ime : imena[i].value,
+                Uloga : uloge[i].value,
+                TipUloge : tipUloge[i].value
             }
 
             g = [...g,obj];
@@ -368,7 +369,7 @@ const postaviFilm = async (naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) =>
     formData.append("DugiOpis", dugiOpis);
     formData.append("Reziser", reziser);
     formData.append("Zanr", zanr);
-    formData.append("Glumci", glumci)
+    formData.append("JsonGlumci", JSON.stringify(glumci))
     formData.append("Slika", file);
    
         try {
@@ -401,7 +402,7 @@ const izmeniFilm = async (id,naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) 
     formData.append("DugiOpis", dugiOpis);
     formData.append("Reziser", reziser);
     formData.append("Zanr", zanr);
-    formData.append("Glumci", glumci)
+    formData.append("JsonGlumci", JSON.stringify(glumci))
     formData.append("Slika", file);
     
         try {

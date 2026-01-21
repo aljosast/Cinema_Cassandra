@@ -1,5 +1,5 @@
-﻿ CREATE TABLE "Filmovi" (     "ID" uuid,     "Naziv" text,     "DugiOpis" text,     
+﻿ CREATE TABLE "Filmovi" (     "ID" text,     "Naziv" text,     "DugiOpis" text,     
  "Opis" text,     "Reziser" text,     "Slika" text,     "Zanr" text,     PRIMARY KEY ("ID") );
 
- CREATE TABLE "Glumci" (     "FilmID" uuid,     "Ime" text,     "TipUloge" text,     
+ CREATE TABLE "Glumci" (     "FilmID" text,     "Ime" text,     "TipUloge" text,     
  "Uloga" text,    PRIMARY KEY ("FilmID", "Ime") );

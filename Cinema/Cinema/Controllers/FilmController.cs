@@ -1,4 +1,5 @@
-﻿using Cinema.Controllers.DTO;
+﻿using System.Text.Json;
+using Cinema.Controllers.DTO;
 using Cinema.DBManager.Entities;
 using Cinema.DBManager.Providers;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -62,25 +63,23 @@ namespace Cinema.Controllers
         {
             try
             {
-                
-                string naziv = string.Concat(film.Naziv.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                naziv = Tools.TransliterateToAscii(naziv);
-
                 var FID = Guid.NewGuid().ToString();
 
                 Film f = new Film
                 {
                     ID = FID,
-                    Naziv = naziv,
+                    Naziv = Tools.TransliterateToAscii(film.Naziv),
                     Zanr = Tools.TransliterateToAscii(film.Zanr!),
                     Opis = Tools.TransliterateToAscii(film.Opis),
                     DugiOpis = Tools.TransliterateToAscii(film.DugiOpis),
                     Reziser = Tools.TransliterateToAscii(film.Reziser),
-                    Glumci = film.Glumci,
+                    Glumci = JsonSerializer.Deserialize<List<Glumac>>(film.JsonGlumci),
                     Slika = Path.Combine(FID + ".jpg")
                 };
 
-                filmProvider.InsertMovie(f);
+                var s = filmProvider.InsertMovie(f);
+                if(!s)
+                    return BadRequest("Došlo je do greške!");
 
                 if (film.Slika != null && film.Slika.Length > 0)
                 {
@@ -108,20 +107,17 @@ namespace Cinema.Controllers
         {
             try
             {
-                string naziv = string.Concat(film.Naziv.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
-                naziv = Tools.TransliterateToAscii(naziv);
-
                 var FID = film.Id;
 
                 Film f = new Film
                 {
                     ID = FID,
-                    Naziv = naziv,
+                    Naziv = Tools.TransliterateToAscii(film.Naziv),
                     Zanr = Tools.TransliterateToAscii(film.Zanr!),
                     Opis = Tools.TransliterateToAscii(film.Opis),
                     DugiOpis = Tools.TransliterateToAscii(film.DugiOpis),
                     Reziser = Tools.TransliterateToAscii(film.Reziser),
-                    Glumci = film.Glumci,
+                    Glumci = JsonSerializer.Deserialize<List<Glumac>>(film.JsonGlumci),
                     Slika = Path.Combine(FID + ".jpg")
                 };
 
@@ -154,6 +150,13 @@ namespace Cinema.Controllers
             try
             {
                 filmProvider.DeleteMovie(id);
+
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                Directory.CreateDirectory(folderPath);
+                var filePath = Path.Combine(folderPath, id + ".jpg");
+                if(System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+                    
                 return Ok("Film je uspresno obrisan");
             }
             catch (Exception ex)

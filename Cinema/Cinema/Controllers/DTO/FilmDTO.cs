@@ -11,15 +11,8 @@ namespace Cinema.Controllers.DTO
         public string Opis { get; set; }
         public string DugiOpis { get; set; }
         public string Reziser { get; set; }
-        public List<Glumac>? Glumci { get; set; }
+        public string? JsonGlumci { get; set; }
         public IFormFile? Slika { get; set; }
 
-    }
-
-    public class ImageInfo
-    {
-        public string Naziv { get; set; }
-        public string Zanr { get; set; }
-        public IFormFile Slika { get; set; }
     }
 }
