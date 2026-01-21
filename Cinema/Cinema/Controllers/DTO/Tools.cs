@@ -10,12 +10,12 @@ namespace Cinema.Controllers.DTO
                 return input;
 
             var replacements = new Dictionary<char, char>
-    {
-        { 'č', 'c' }, { 'ć', 'c' }, { 'ž', 'z' },
-        { 'š', 's' }, { 'đ', 'd' }, { 'Č', 'C' },
-        { 'Ć', 'C' }, { 'Ž', 'Z' }, { 'Š', 'S' },
-        { 'Đ', 'D' }
-    };
+            {
+                { 'č', 'c' }, { 'ć', 'c' }, { 'ž', 'z' },
+                { 'š', 's' }, { 'đ', 'd' }, { 'Č', 'C' },
+                { 'Ć', 'C' }, { 'Ž', 'Z' }, { 'Š', 'S' },
+                { 'Đ', 'D' }
+            };
 
             var result = new StringBuilder(input.Length);
 
