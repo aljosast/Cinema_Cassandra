@@ -107,7 +107,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseStaticFiles();  // Omoguæite statièke fajlove iz wwwroot
+app.UseStaticFiles();  // Omoguï¿½ite statiï¿½ke fajlove iz wwwroot
 
 // Mapirajte rutu koja vodi do index.html fajla
 app.Map("/Filmovi", async context =>
