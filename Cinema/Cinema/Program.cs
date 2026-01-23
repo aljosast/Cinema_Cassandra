@@ -11,6 +11,7 @@ builder.Services.AddScoped<FilmProvider>();
 builder.Services.AddScoped<KorisnikProvider>();
 
 builder.Services.AddScoped<BioskopProvider>();
+builder.Services.AddScoped<ProjekcijaProvider>();
 
 builder.Services.AddCors(options =>
 {
