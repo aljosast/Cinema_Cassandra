@@ -88,9 +88,9 @@ namespace Cinema.Controllers
         {
             try
             {
-                bioskopProvider.DeleteCinema(grad, id);
-                    
-                return Ok("Bioskop je uspresno obrisan");
+                var res = bioskopProvider.DeleteCinema(grad, id);
+                if(!res) return BadRequest("Došlo je do greške!");
+                else return Ok("Bioskop je uspresno obrisan");
             }
             catch (Exception ex)
             {

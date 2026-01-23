@@ -1,3 +1,4 @@
+using System.Runtime.Versioning;
 using Cinema.DBManager.Entities;
 
 namespace Cinema.DBManager.Providers
@@ -37,8 +38,8 @@ namespace Cinema.DBManager.Providers
                         projekcija.BrojRezervacija = pd["BrojRezervacija"] != null ? Convert.ToInt32(pd["BrojRezervacija"]) : 0;
                         projekcija.NazivFilma = pd["NazivFilma"] != null ? pd["NazivFilma"].ToString() : String.Empty;
                         projekcija.Slika = pd["Slika"] != null ? pd["Slika"].ToString() : String.Empty;
-                        projekcija.Vreme = pd["Vreme"] != null ? Convert.ToDateTime(pd["Vreme"]) : new DateTime();
-                        //projekcija.Vreme = pd["Vreme"] != null ? pd.GetValue<DateTime>("Vreme") : new DateTime();
+                        //projekcija.Vreme = pd["Vreme"] != null ? Convert.ToDateTime(pd["Vreme"]) : new DateTime();
+                        projekcija.Vreme = pd["Vreme"] != null ? pd.GetValue<DateTime>("Vreme") : new DateTime();
                         projekcije.Add(projekcija);
                     }
                     bioskop.Projekcije = projekcije;
@@ -147,7 +148,6 @@ namespace Cinema.DBManager.Providers
             {
                 Cassandra.ISession session = SessionManager.GetSession();
                 if (session == null) return false;
-                Console.WriteLine(bioskop.ID);
 
                 var res = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{bioskop.Grad}' and \"ID\" = '{bioskop.ID}'");
                 var row = res.FirstOrDefault();
@@ -179,11 +179,19 @@ namespace Cinema.DBManager.Providers
 
                 if (session == null)
                     return false;
+                
+                var data = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{grad}' and \"ID\" = '{id}'");
+                var res = data.FirstOrDefault();
+                if(res == null) return false;
 
-                session.Execute($"DELETE FROM \"Bioskop\" WHERE \"Grad\" = '{grad}' and \"ID\" = '{id}';");
-                //session.Execute($"DELETE FROM \"Projekcije\" WHERE \"BioskopID\" = '{id}';");
+                session.Execute($"DELETE FROM \"Bioskop\" WHERE \"Grad\" = '{grad}' and \"ID\" = '{id}'");
+                session.Execute($"DELETE FROM \"Projekcija\" WHERE \"BioskopID\" = '{id}'");
 
-                return true;
+                data = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{grad}' and \"ID\" = '{id}'");
+                res = data.FirstOrDefault();
+
+                if(res == null) return true;
+                else return false;
             }
             catch (Exception ex)
             {
