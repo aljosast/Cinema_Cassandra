@@ -1,0 +1,234 @@
+  /* admin.css - Stilovi za Admin Panel i Listu Filmova */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+/* --- OSNOVNA PODEŠAVANJA --- */
+body {
+    background-color: #050505;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Uklanjanje scrollbara */
+body::-webkit-scrollbar { display: none; }
+body { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* --- HEADER (Admin Navigacija) --- */
+/* Isti stil kao na pocetnoj radi konzistentnosti */
+.neon-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 5%;
+    background: #39ff14;
+    border-bottom: 1px solid #333;
+    height: 70px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+    position: sticky; top: 0; z-index: 100;
+}
+
+.header-title {
+    color: #000000; font-size: 1.5rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+}
+
+.header-links { display: flex; gap: 20px; }
+
+.text-link {
+    background: none; border: none; color: #000000;
+    font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; text-transform: uppercase;
+    transition: all 0.3s;
+}
+.text-link:hover, .nav-active {
+     text-shadow: 0 0 10px #ffffff;
+}
+
+/* --- GRID ZA KARTICE FILMOVA --- */
+.CardRow {
+    display: grid;
+    /* Automatski rasporedjuje kartice (min sirina 280px) */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 40px;
+    padding: 40px 5%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* --- KARTICA FILMA --- */
+.movie-card {
+    background-color: #0a0a0a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    display: flex; flex-direction: column;
+    position: relative;
+}
+
+.movie-card:hover {
+    transform: translateY(-10px);
+    border-color: #39ff14;
+    box-shadow: 0 10px 30px rgba(57, 255, 20, 0.15);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 420px; /* Visina postera */
+    object-fit: cover;
+    border-bottom: 1px solid #333;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+.movie-card:hover img { opacity: 1; }
+
+.movie-card-info { padding: 20px; }
+
+.movie-card-title {
+    font-size: 1.1rem; font-weight: 700;
+    text-transform: uppercase; margin-bottom: 8px;
+    color: #fff;
+}
+
+.movie-card-genre {
+    font-size: 0.85rem; font-weight: 700;
+    color: #39ff14; text-transform: uppercase;
+}
+
+/* --- DUGMIĆI (General) --- */
+.button {
+    background-color: transparent;
+    color: #39ff14;
+    border: 1px solid #39ff14;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+.button:hover {
+    background-color: #39ff14;
+    color: black;
+    box-shadow: 0 0 15px #39ff14;
+}
+.button:disabled {
+    border-color: #555; color: #555; cursor: not-allowed;
+    background: none; box-shadow: none;
+}
+
+/* --- FORMA ZA UNOS/IZMENU (DrawInsertPage) --- */
+.Container {
+    background-color: #0a0a0a;
+    border: 1px solid #333;
+    padding: 40px;
+    margin: 40px auto;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+}
+
+.Container h2 {
+    color: #39ff14; text-transform: uppercase;
+    text-align: center; margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+/* Stilovi za Input polja u formi */
+.input, input[type="text"], input[type="number"], textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    background-color: #111;
+    border: 1px solid #333;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 4px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.input:focus, input:focus, textarea:focus {
+    border-color: #39ff14;
+}
+
+.Row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+/* --- MODAL (Admin detalji) --- */
+.modal {
+    display: none; position: fixed; z-index: 200;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.95);
+    backdrop-filter: blur(5px);
+    overflow-y: auto;
+}
+
+.neon-modal {
+    background-color: #0a0a0a;
+    border: 2px solid #39ff14;
+    box-shadow: 0 0 40px rgba(57, 255, 20, 0.1);
+    color: white;
+    margin: 5% auto;
+    width: 90%; max-width: 900px;
+    padding: 40px;
+    position: relative;
+    border-radius: 8px;
+}
+
+.modal-close-icon {
+    position: absolute; top: 15px; right: 20px;
+    background: none; border: none; color: #555;
+    font-size: 2.5rem; cursor: pointer; line-height: 0.8;
+    transition: color 0.3s;
+}
+.modal-close-icon:hover { color: #39ff14; }
+
+/* Layout unutar modala */
+.film-details-layout {
+    display: flex; gap: 40px; align-items: flex-start;
+}
+.film-details-img {
+    width: 300px; border-radius: 4px;
+    border: 1px solid #333; box-shadow: 0 10px 30px black;
+}
+.film-details-info { flex: 1; text-align: left; }
+.film-details-info h2 {
+    color: #fff; font-size: 2rem; margin: 0 0 20px 0;
+    text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px;
+}
+.label { color: #39ff14; font-weight: bold; margin-right: 10px; }
+
+/* Admin dugmići u modalu */
+.admin-btn-row { display: flex; gap: 15px; margin-top: 30px; }
+
+.btn-edit {
+    padding: 10px 20px; border: 1px solid #39ff14; color: #39ff14;
+    background: none; cursor: pointer; font-weight: bold; text-transform: uppercase;
+    transition: all 0.3s;
+}
+.btn-edit:hover { background: #39ff14; color: black; }
+
+.btn-delete {
+    padding: 10px 20px; border: 1px solid #ff3333; color: #ff3333;
+    background: none; cursor: pointer; font-weight: bold; text-transform: uppercase;
+    transition: all 0.3s;
+}
+.btn-delete:hover { background: #ff3333; color: white; box-shadow: 0 0 15px #ff3333; }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 800px) {
+    .film-details-layout { flex-direction: column; align-items: center; }
+    .film-details-img { width: 100%; max-width: 300px; }
+    .admin-btn-row { justify-content: center; width: 100%; }
+    .btn-edit, .btn-delete { flex: 1; }
+    .Container { padding: 20px; margin: 20px 10px; }
+    .Row { flex-direction: column; align-items: flex-start; gap: 5px; }
+}
