@@ -13,6 +13,5 @@ namespace Cinema.Controllers.DTO
         public string Reziser { get; set; }
         public string? JsonGlumci { get; set; }
         public IFormFile? Slika { get; set; }
-
     }
 }

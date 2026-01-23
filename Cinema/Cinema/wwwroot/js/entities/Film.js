@@ -1,7 +1,11 @@
-import { DrawInsertPage,Drawpage } from "./main.js";
+import { DrawFilmPage } from "../Pages/FilmPage.js";
+import { DrawInsertPage } from "../Pages/InsertPage.js";
 
-class Film{
-    constructor(host,id,naziv,zanr,reziser,dugiOpis,opis,slika,glumci){
+export class Film{
+    constructor(host1,page,max_page,host,id,naziv,zanr,reziser,dugiOpis,opis,slika,glumci){
+        this.host1 = host1;
+        this.page = page;
+        this.max_page = max_page;
         this.host = host;
         this.id = id;
         this.naziv = naziv;
@@ -105,7 +109,8 @@ class Film{
         edit_btn.innerText = "Izmeni";
         edit_btn.classList.add("close-button");
         edit_btn.onclick = () => {
-            DrawInsertPage(this.id,this.naziv, this.zanr, this.opis, this.dugiOpis, this.reziser, this.slika, this.glumci, true);
+            this.host.innerHTML = ""
+            DrawInsertPage(this.host1, this.page, this.max_page, this.host, this.id,this.naziv, this.zanr, this.opis, this.dugiOpis, this.reziser, this.slika, this.glumci, true);
         }
         row.appendChild(edit_btn);
 
@@ -189,39 +194,6 @@ class Film{
     }
 }
 
-function layout(host,page){
-    const header = document.createElement("div");
-    header.classList.add("header");
-    host.appendChild(header)
-
-    const title = document.createElement("div");
-    title.innerText = "Cinema";
-    title.classList.add("title");
-    header.appendChild(title);
-
-    const opt = document.createElement("div");
-    opt.classList.add("option-bar");
-    header.appendChild(opt);
-
-    const box1 = document.createElement("div");
-    box1.classList.add("box");
-    box1.innerText = "Pocetna strana";
-    if (page === 1) box1.classList.add("inverse");
-    opt.appendChild(box1);
-
-    const box2 = document.createElement("div");
-    box2.classList.add("box");
-    box2.innerText = "Bioskopi";
-    if (page === 2) box2.classList.add("inverse");
-    opt.appendChild(box2);
-
-    const box3 = document.createElement("div");
-    box3.classList.add("box");
-    box3.innerText = "Filmovi";
-    if (page === 3) box3.classList.add("inverse");
-    opt.appendChild(box3);
-}
-
 async function obrisifilm(id) {
     try {
         const response = await fetch(`https://localhost:7172/api/Film/ObrisiFilm/${id}`, {
@@ -236,7 +208,7 @@ async function obrisifilm(id) {
             console.log("Uspeh:", result);
             alert(response);
 
-            Drawpage();
+            DrawFilmPage(this.host1,this.page,this.max_page);
         } else {
             console.error("Greška:", response.statusText);
         }
@@ -244,5 +216,3 @@ async function obrisifilm(id) {
         console.error("Došlo je do greške:", error);
     }
 }
-
-export {Film,layout}
