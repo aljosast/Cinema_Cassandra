@@ -78,7 +78,7 @@ namespace Cinema.Controllers
                 };
 
                 var s = filmProvider.InsertMovie(f);
-                if(!s)
+                if(!s.Success)
                     return BadRequest("Došlo je do greške!");
 
                 if (film.Slika != null && film.Slika.Length > 0)
@@ -121,7 +121,7 @@ namespace Cinema.Controllers
                     Slika = Path.Combine(FID + ".jpg")
                 };
 
-                filmProvider.InsertMovie(f);
+                filmProvider.UpdateMovie(f);
 
                 if (film.Slika != null && film.Slika.Length > 0)
                 {

@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<FilmProvider>();
 builder.Services.AddScoped<KorisnikProvider>();
+builder.Services.AddScoped<RezervacijaProvider>();
 
 builder.Services.AddScoped<BioskopProvider>();
 

@@ -39,6 +39,38 @@ namespace Cinema.DBManager.Providers
             }
         }
 
+        public KorisnikDTO UserBasics(String username)
+        {
+            try
+            {
+                Cassandra.ISession session = SessionManager.GetSession();
+                KorisnikDTO k = new KorisnikDTO();
+                k.Username = username;
+
+                if (session == null)
+                    return null;
+
+                var statement = session.Prepare(
+                       "SELECT \"Ime\",\"Prezime\",\"Godine\" FROM \"Korisnik\" WHERE \"Username\" = ?"
+                );
+
+                var KorisnikData = session.Execute(statement.Bind(username));
+
+                var res = KorisnikData.FirstOrDefault();
+                if (res == null) return null;
+
+                k.Ime = res["Ime"] != null ? res["Ime"].ToString() : String.Empty;
+                k.Prezime = res["Prezime"] != null ? res["Prezime"].ToString() : String.Empty;
+                k.Godine = res["Godine"] != null ? Convert.ToInt32(res["Godine"]) : 0;
+
+                return k;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public DBResponse InsertUser(Korisnik user)
         {
             try

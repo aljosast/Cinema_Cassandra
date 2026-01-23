@@ -110,7 +110,9 @@ namespace Cinema.Controllers
                 return Ok(new TokenResponse
                 {
                     Token = jwt,
-                    IsAuthenticated = true
+                    IsAuthenticated = true,
+                    Username = tokenData.Username,
+                    Role = tokenData.Role
                 });
 
             }

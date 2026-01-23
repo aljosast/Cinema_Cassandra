@@ -75,27 +75,76 @@ namespace Cinema.DBManager.Providers
             }
         }
 
-        public bool InsertMovie(Film film)
+        public DBResponse InsertMovie(Film film)
         {
             try
             {
                 Cassandra.ISession session = SessionManager.GetSession();
-
                 if (session == null)
-                    return false;
+                    return new DBResponse
+                    {
+                        Success = false,
+                        Message = "Neuspela sesija"
+                    };
 
-                session.Execute($"insert into \"Filmovi\" (\"ID\", \"DugiOpis\", \"Naziv\", \"Opis\", \"Reziser\", \"Slika\", \"Zanr\") VALUES ( '{film.ID}','{film.DugiOpis}','{film.Naziv}', '{film.Opis}',  '{film.Reziser}', '{film.Slika}', '{film.Zanr}');");
+                var insertFilmPs = session.Prepare(
+                    "INSERT INTO \"Filmovi\" " +
+                    "(\"ID\", \"DugiOpis\", \"Naziv\", \"Opis\", \"Reziser\", \"Slika\", \"Zanr\") " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS;"
+                );
+
+                var filmResult = session.Execute(
+                    insertFilmPs.Bind(
+                        film.ID,
+                        film.DugiOpis,
+                        film.Naziv,
+                        film.Opis,
+                        film.Reziser,
+                        film.Slika,
+                        film.Zanr
+                    )
+                );
+
+                if (!filmResult.First().GetValue<bool>("[applied]"))
+                    return new DBResponse
+                    {
+                        Success = false,
+                        Message = "Film sa datim id-jem vec postoji"
+                    };
+
+                var insertGlumacPs = session.Prepare(
+                    "INSERT INTO \"Glumci\" " +
+                    "(\"FilmID\", \"Ime\", \"TipUloge\", \"Uloga\") " +
+                    "VALUES (?, ?, ?, ?) IF NOT EXISTS;"
+                );
 
                 foreach (var glumac in film.Glumci)
                 {
                     if (glumac == null) continue;
-                    session.Execute($"INSERT INTO \"Glumci\" (\"FilmID\", \"Ime\", \"TipUloge\", \"Uloga\") VALUES ('{film.ID}', '{Tools.TransliterateToAscii(glumac.Ime)}', '{Tools.TransliterateToAscii(glumac.TipUloge)}', '{Tools.TransliterateToAscii(glumac.Uloga)}');");
+
+                    session.Execute(
+                        insertGlumacPs.Bind(
+                            film.ID,
+                            Tools.TransliterateToAscii(glumac.Ime),
+                            Tools.TransliterateToAscii(glumac.TipUloge),
+                            Tools.TransliterateToAscii(glumac.Uloga)
+                        )
+                    );
                 }
-                return true;
+
+                return new DBResponse
+                {
+                    Success = true,
+                    Message = "Uspesno postavljeno"
+                };
             }
-            catch (Exception ex)
+            catch(Exception ex )
             {
-                return false;
+                return new DBResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
             }
         }
 
@@ -150,51 +199,65 @@ namespace Cinema.DBManager.Providers
         public bool UpdateMovie(Film film) {
             try
             {
-                Cassandra.ISession session = SessionManager.GetSession();
-
+                var session = SessionManager.GetSession();
                 if (session == null)
                     return false;
 
-                var resultSet = session.Execute($"select * from \"Filmovi\" where \"ID\" = '{film.ID}';");
+                var updateFilmPs = session.Prepare(
+                    "UPDATE \"Filmovi\" SET " +
+                    "\"DugiOpis\" = ?, " +
+                    "\"Naziv\" = ?, " +
+                    "\"Opis\" = ?, " +
+                    "\"Reziser\" = ?, " +
+                    "\"Slika\" = ?, " +
+                    "\"Zanr\" = ? " +
+                    "WHERE \"ID\" = ? IF EXISTS;"
+                );
 
-                var row = resultSet.FirstOrDefault();
+                var updateResult = session.Execute(
+                    updateFilmPs.Bind(
+                        film.DugiOpis,
+                        film.Naziv,
+                        film.Opis,
+                        film.Reziser,
+                        film.Slika,
+                        film.Zanr,
+                        film.ID
+                    )
+                );
 
-                var stari = new Film
-                {
-                    ID = row.GetValue<string>("ID"),
-                    DugiOpis = row.GetValue<string>("DugiOpis"),
-                    Naziv = row.GetValue<string>("Naziv"),
-                    Opis = row.GetValue<string>("Opis"),
-                    Reziser = row.GetValue<string>("Reziser"),
-                    Slika = row.GetValue<string>("Slika"),
-                    Zanr = row.GetValue<string>("Zanr")
-                };
+                if (!updateResult.First().GetValue<bool>("[applied]"))
+                    return false;
 
-                if (stari.Naziv != film.Naziv)
-                    session.Execute($"Update \"Filmovi\" set \"Naziv\" = '{film.Naziv}' where \"ID\" = '{film.ID}';");
-                if (stari.Naziv != film.Naziv)
-                    session.Execute($"Update \"Filmovi\" set \"DugiOpis\" = '{film.DugiOpis}' where \"ID\" = '{film.ID}';");
-                if (stari.Naziv != film.Naziv)
-                    session.Execute($"Update \"Filmovi\" set \"Opis\" = '{film.Opis}' where \"ID\" = '{film.ID}';");
-                if (stari.Naziv != film.Naziv)
-                    session.Execute($"Update \"Filmovi\" set \"Reziser\" = '{film.Reziser}' where \"ID\" = '{film.ID}';");
-                if (stari.Naziv != film.Naziv)
-                    session.Execute($"Update \"Filmovi\" set \"Slika\" = '{film.Slika}' where \"ID\" = '{film.ID}';");
-                if (stari.Naziv != film.Naziv)
-                    session.Execute($"Update \"Filmovi\" set \"Zanr\" = '{film.Zanr}' where \"ID\" = '{film.ID}';");
+                var deleteGlumciPs = session.Prepare(
+                    "DELETE FROM \"Glumci\" WHERE \"FilmID\" = ?;"
+                );
 
+                session.Execute(deleteGlumciPs.Bind(film.ID));
 
-                session.Execute($"DELETE FROM \"Glumci\" WHERE \"FilmID\" = '{film.ID}';");
-        
+                var insertGlumacPs = session.Prepare(
+                    "INSERT INTO \"Glumci\" " +
+                    "(\"FilmID\", \"Ime\", \"TipUloge\", \"Uloga\") " +
+                    "VALUES (?, ?, ?, ?);"
+                );
+
                 foreach (var glumac in film.Glumci)
                 {
                     if (glumac == null) continue;
-                    session.Execute($"INSERT INTO \"Glumci\" (\"FilmID\", \"Ime\", \"TipUloge\", \"Uloga\") VALUES ('{film.ID}', '{Tools.TransliterateToAscii(glumac.Ime)}', '{Tools.TransliterateToAscii(glumac.TipUloge)}', '{Tools.TransliterateToAscii(glumac.Uloga)}');");
+
+                    session.Execute(
+                        insertGlumacPs.Bind(
+                            film.ID,
+                            Tools.TransliterateToAscii(glumac.Ime),
+                            Tools.TransliterateToAscii(glumac.TipUloge),
+                            Tools.TransliterateToAscii(glumac.Uloga)
+                        )
+                    );
                 }
 
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
                 return false;
             }
