@@ -1,5 +1,5 @@
-import { DrawFilmPage } from "../pages/FilmPage.js";
-import { DrawInsertPage } from "../pages/InsertPage.js";
+import { DrawFilmPage } from "../Pages/FilmPage.js";
+import { DrawInsertPage } from "../Pages/InsertPage.js";
 
 export class Film{
     constructor(host1,page,max_page,host,id,naziv,zanr,reziser,dugiOpis,opis,slika,glumci){
@@ -110,7 +110,7 @@ export class Film{
         edit_btn.classList.add("close-button");
         edit_btn.onclick = () => {
             this.host.innerHTML = ""
-            DrawInsertPage(this.host1, this.page, this.max_page, this.id,this.naziv, this.zanr, this.opis, this.dugiOpis, this.reziser, this.slika, this.glumci, true);
+            DrawInsertPage(this.host1, this.page, this.max_page, this.host, this.id,this.naziv, this.zanr, this.opis, this.dugiOpis, this.reziser, this.slika, this.glumci, true);
         }
         row.appendChild(edit_btn);
 

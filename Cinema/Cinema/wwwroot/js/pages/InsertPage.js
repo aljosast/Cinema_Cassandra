@@ -1,19 +1,17 @@
 import { DrawFilmPage } from "./FilmPage.js";
 
-export function DrawInsertPage(host, page, max_page, fid = "",naziv = "", zanr = "", opis = "", dugiOpis = "", reziser = "", slika = "", glumci = [], edit = false){
+export function DrawInsertPage(host, page, max_page, parentContainer, fid = "",naziv = "", zanr = "", opis = "", dugiOpis = "", reziser = "", slika = "", glumci = [], edit = false){
 
-    let kontejner = document.createElement("div")
-    kontejner.classList.add("inserPage")
-    host.appendChild(kontejner)
-
+    parentContainer.innerHTML = "";
+    
     const button = document.createElement("button");
                 button.innerText = "Lista filmova";
                 button.classList.add("button");
                 button.onclick = () => { 
-                    kontejner.innerHTML = ""
+                    parentContainer.remove();
                     DrawFilmPage(host, page, max_page) 
                 };
-                kontejner.appendChild(button);
+                parentContainer.appendChild(button);
 
 
     
@@ -26,10 +24,10 @@ export function DrawInsertPage(host, page, max_page, fid = "",naziv = "", zanr =
                     tipUloge = [...tipUloge, document.createElement("input")];
                     DrawGlumci(container,imena,uloge,tipUloge);
                 };
-                kontejner.appendChild(buttonplus);
+                parentContainer.appendChild(buttonplus);
 
     const form = document.createElement("form");
-    kontejner.appendChild(form);
+    parentContainer.appendChild(form);
     form.onsubmit = (event) => {
         event.preventDefault();
 
@@ -49,6 +47,7 @@ export function DrawInsertPage(host, page, max_page, fid = "",naziv = "", zanr =
                 host,
                 page,
                 max_page,
+                parentContainer,
                 naziv_box.value,
                 zanr_box.value,
                 opis_box.value,
@@ -59,10 +58,12 @@ export function DrawInsertPage(host, page, max_page, fid = "",naziv = "", zanr =
             )
         }
         else{
+            parentContainer.remove();
             izmeniFilm(
                 host,
                 page,
                 max_page,
+                parentContainer,
                 fid,
                 naziv_box.value,
                 zanr_box.value,
@@ -302,7 +303,7 @@ function DrawGlumci(container,imena,uloge,tipUloge){
 
 
 
-const postaviFilm = async (host, page, max_page, naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) => {
+const postaviFilm = async (host, page, max_page, parentContainer, naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) => {
 
     const file = fileInput.files[0];
     
@@ -325,7 +326,7 @@ const postaviFilm = async (host, page, max_page, naziv,zanr,opis,dugiOpis,rezise
             if (response.ok) {
                 const result = await response.text();
                 console.log("Uspeh:", result);
-
+                parentContainer.remove();
                 DrawFilmPage(host, page, max_page);
             } else {
                 console.error("Greška:", response.statusText);
@@ -335,7 +336,7 @@ const postaviFilm = async (host, page, max_page, naziv,zanr,opis,dugiOpis,rezise
         }
 };
 
-const izmeniFilm = async (host, page, max_page, id,naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) => {
+const izmeniFilm = async (host, page, max_page, parentContainer, id,naziv,zanr,opis,dugiOpis,reziser,glumci,fileInput) => {
 
     const file = fileInput.files[0];
     
@@ -358,7 +359,7 @@ const izmeniFilm = async (host, page, max_page, id,naziv,zanr,opis,dugiOpis,rezi
             if (response.ok) {
                 const result = await response.text();
                 console.log("Uspeh:", result);
-
+                parentContainer.remove();
                 DrawFilmPage(host, page, max_page);
 
             } else {

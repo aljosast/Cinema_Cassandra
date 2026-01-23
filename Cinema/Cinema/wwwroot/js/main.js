@@ -1,5 +1,6 @@
 
-import { DrawFilmPage } from "./pages/FilmPage.js";
+import { DrawFilmPage } from "./Pages/FilmPage.js";
+import { DrawCinemaPage } from "./Pages/CinemaPage.js";
 
 const host = document.body;
 let page = 0;
@@ -16,7 +17,7 @@ export function navigate(Page) {
             //drawHomePage(host);
             break;
         case 2:
-            //drawCinemasPage(host);
+            DrawCinemaPage(host);
             break;
         case 3:
             DrawFilmPage(host, page, max_page);

@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<FilmProvider>();
 
+builder.Services.AddScoped<BioskopProvider>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CORS", policy =>

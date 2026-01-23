@@ -26,8 +26,8 @@ export function DrawFilmPage(host, page, max_page){
                 button.innerText = "Novi film"
                 button.classList.add("button");
                 button.onclick = () => { 
-                    container.innerHTML = "" 
-                    DrawInsertPage(host, page, max_page) }
+                    //container.remove();
+                    DrawInsertPage(host, page, max_page, container) }
                 container.appendChild(button);
 
                 for (let d of data){
@@ -45,7 +45,7 @@ export function DrawFilmPage(host, page, max_page){
                 prev_btn.classList.add("button");
                 prev_btn.onclick = () => {
                     page = page - 1
-                    container.innerHTML = ""
+                    container.remove();
                     DrawFilmPage(host, page, max_page);
                 };
                 r.appendChild(prev_btn);
@@ -60,7 +60,7 @@ export function DrawFilmPage(host, page, max_page){
                 next_btn.classList.add("button");
                 next_btn.onclick = () => {
                     page = page + 1
-                    container.innerHTML = ""
+                    container.remove();
                     DrawFilmPage(host, page, max_page);
                 };
                 r.appendChild(next_btn);
