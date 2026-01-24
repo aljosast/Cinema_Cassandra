@@ -168,6 +168,28 @@ namespace Cinema.DBManager.Providers
                 return null;
             }
         }
+        public List<Korisnik> GetAllUsers()
+            {
+                var session = SessionManager.GetSession();
+                if (session == null) return new List<Korisnik>();
+
+                // Selektujemo sve
+                var rows = session.Execute("SELECT * FROM \"Korisnik\"");
+                
+                List<Korisnik> korisnici = new List<Korisnik>();
+                foreach (var row in rows)
+                {
+                    korisnici.Add(new Korisnik
+                    {
+                        Username = row.GetValue<string>("Username"),
+                        Ime = row.GetValue<string>("Ime"),
+                        Prezime = row.GetValue<string>("Prezime"),
+                        Godine = row.GetValue<int>("Godine"),
+                        Role = row.GetValue<string>("Role")
+                    });
+                }
+                return korisnici;
+            }
 
         public DBResponse EditUser(KorisnikDTO user)
         {

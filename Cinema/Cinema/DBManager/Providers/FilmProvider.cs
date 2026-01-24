@@ -15,7 +15,7 @@ namespace Cinema.DBManager.Providers
                 if (session == null)
                     return null;
 
-                var filmsData = session.Execute("select * from \"Filmovi\"").Skip(page * 10).Take(10);
+                var filmsData = session.Execute("select * from \"Filmovi\"").Skip(page * 12).Take(12);
 
                 foreach (var filmData in filmsData)
                 {

@@ -1,9 +1,9 @@
-﻿ import { layout } from "./Filmovi.js"; // Ako koristis layout iz filma, ili napravi poseban layout za Home
+﻿import { layout } from "./Filmovi.js"; 
 
 export class Home {
     constructor(host, onLoginSuccess) {
         this.host = host;
-        this.onLoginSuccess = onLoginSuccess;
+        this.onLoginSuccess = onLoginSuccess; 
         this.currentScroll = 0;
         this.autoScrollTimer = null;
     }
@@ -11,7 +11,7 @@ export class Home {
     async DrawHomePage() {
         this.host.innerHTML = "";
         
-        // 1. POZADINA
+        // --- 1. POZADINA I HEADER ---
         const bg = document.createElement("div");
         bg.classList.add("background-blur");
         const bgGrid = document.createElement("div");
@@ -19,7 +19,6 @@ export class Home {
         bg.appendChild(bgGrid);
         this.host.appendChild(bg);
 
-        // 2. HEADER
         const header = document.createElement("div");
         header.classList.add("neon-header");
         
@@ -31,16 +30,24 @@ export class Home {
         const linksDiv = document.createElement("div");
         linksDiv.classList.add("header-links");
 
-        // Login
         const loginLink = document.createElement("button");
         loginLink.classList.add("text-link");
-        loginLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>PRIJAVI SE</span>`;
+        loginLink.innerHTML = `
+            <svg viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>PRIJAVI SE</span>
+        `;
         loginLink.onclick = () => { this.DrawModal("Prijava"); }
 
-        // Register
         const regLink = document.createElement("button");
         regLink.classList.add("text-link");
-        regLink.innerHTML = `<svg viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>REGISTRUJ SE</span>`;
+        regLink.innerHTML = `
+            <svg viewBox="0 0 24 24">
+                <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            <span>REGISTRUJ SE</span>
+        `;
         regLink.onclick = () => { this.DrawModal("Registracija"); }
 
         linksDiv.appendChild(loginLink);
@@ -48,7 +55,7 @@ export class Home {
         header.appendChild(linksDiv);
         this.host.appendChild(header);
 
-        // 3. CENTAR
+        // --- 2. SADRŽAJ (Filmovi) ---
         const mainContent = document.createElement("div");
         mainContent.classList.add("home-center");
 
@@ -57,7 +64,6 @@ export class Home {
         subTitle.classList.add("neon-subtitle");
         mainContent.appendChild(subTitle);
 
-        // 4. TRAKA
         const wrapper = document.createElement("div");
         wrapper.classList.add("film-strip-wrapper");
 
@@ -83,12 +89,11 @@ export class Home {
         mainContent.appendChild(wrapper);
         this.host.appendChild(mainContent);
 
-        // --- FETCH ---
+        // --- FETCH FILMOVA ---
         try {
             const response = await fetch("https://localhost:7172/api/Film/ListaFilmova/0");
             if(response.ok) {
                 let filmovi = await response.json();
-                
                 if(filmovi.length > 0) {
                     // Pozadina
                     filmovi.slice(0, 4).forEach(film => {
@@ -98,76 +103,55 @@ export class Home {
                         bgGrid.appendChild(img);
                     });
 
-                    // Traka - Dupliramo da bi bilo dovoljno za skrol
+                    // Traka
                     const loopFilmovi = [...filmovi, ...filmovi, ...filmovi]; 
-                    
                     loopFilmovi.forEach(film => {
                         const frame = document.createElement("div");
                         frame.classList.add("film-frame");
-                        
                         frame.onclick = () => { this.DrawFilmDetailsModal(film); };
 
                         const img = document.createElement("img");
                         img.src = "https://localhost:7172/images/" + film.slika;
-                        img.onerror = function() { this.src = "https://via.placeholder.com/350x230/000000/39ff14?text=" + film.naziv; };
+                        img.onerror = function() { this.src = "https://via.placeholder.com/300x450?text=" + film.naziv; };
                         frame.appendChild(img);
                         strip.appendChild(frame);
                     });
 
-                    // --- DINAMIČKA LOGIKA ZA POMERANJE ---
-                    // Pomeramo se za širinu kontejnera (prikazujemo sledeći set od 4 filma)
-                    // Ili za širinu jedne kartice ako želiš preciznije
-                    
-                    const moveStrip = () => {
-                        strip.style.transform = `translateX(-${this.currentScroll}px)`;
-                    };
-
+                    // Skrolovanje (Ažurirano za šire slike)
+                    const moveStrip = () => { strip.style.transform = `translateX(-${this.currentScroll}px)`; };
                     const goRight = () => {
-                        // Merimo širinu jednog elementa (filma) + gap (20px)
-                        const itemWidth = strip.children[0].offsetWidth + 20; 
+                        const itemWidth = 350; // <--- NOVA ŠIRINA (320px slika + 30px gap)
                         const maxScroll = (loopFilmovi.length * itemWidth) - container.offsetWidth;
-                        
-                        this.currentScroll += itemWidth; // Pomera 1 po 1
-                        
-                        if (this.currentScroll >= maxScroll) {
-                            this.currentScroll = 0; 
-                        }
+                        this.currentScroll += itemWidth; 
+                        if (this.currentScroll >= maxScroll) this.currentScroll = 0; 
                         moveStrip();
                     };
-
                     const goLeft = () => {
-                        const itemWidth = strip.children[0].offsetWidth + 20;
+                        const itemWidth = 350; // <--- NOVA ŠIRINA
                         const maxScroll = (loopFilmovi.length * itemWidth) - container.offsetWidth;
-
-                        this.currentScroll -= itemWidth;
-                        
-                        if (this.currentScroll < 0) {
-                             // Ako ode previše levo, vrati na kraj ali poravnato
-                             this.currentScroll = maxScroll - (maxScroll % itemWidth); 
-                        }
+                        this.currentScroll -= itemWidth; 
+                        if (this.currentScroll < 0) this.currentScroll = maxScroll - (maxScroll % itemWidth); 
                         moveStrip();
                     };
-
                     arrowRight.onclick = () => { clearInterval(this.autoScrollTimer); goRight(); this.startAutoScroll(goRight); };
                     arrowLeft.onclick = () => { clearInterval(this.autoScrollTimer); goLeft(); this.startAutoScroll(goRight); };
                     this.startAutoScroll(goRight);
                 }
             }
-        } catch (error) { console.error(error); }
+        } catch (error) { console.error("Greska:", error); }
     }
 
     startAutoScroll(callback) {
+        if(this.autoScrollTimer) clearInterval(this.autoScrollTimer);
         this.autoScrollTimer = setInterval(() => { callback(); }, 5000);
     }
 
-    // --- MODAL DETALJI ---
     DrawFilmDetailsModal(film) {
         const modal = document.createElement("div");
         modal.classList.add("modal");
         modal.style.display = "block";
 
         const modalContent = document.createElement("div");
-        // Dodajemo 'large-modal' klasu za širi prikaz
         modalContent.classList.add("neon-modal", "large-modal");
         
         const closeIcon = document.createElement("button");
@@ -191,23 +175,15 @@ export class Home {
             <p><span style="color:#39ff14; font-weight:bold">ŽANR:</span> ${film.zanr}</p>
             <p><span style="color:#39ff14; font-weight:bold">REŽISER:</span> ${film.reziser}</p>
             <p><span style="color:#39ff14; font-weight:bold">OPIS:</span> ${film.opis}</p>
+            <p><span style="color:#39ff14; font-weight:bold">RADNJA:</span> ${film.dugiOpis || "/"}</p>
         `;
-        
-        let opisTekst = film.dugiOpis || "Nema dodatnog opisa.";
-        info.innerHTML += `<p><span style="color:#39ff14; font-weight:bold">RADNJA:</span> ${opisTekst}</p>`;
-
-        if(film.glumci && film.glumci.length > 0) {
-            let glumciStr = film.glumci.map(g => g.ime).join(", ");
-            info.innerHTML += `<p><span style="color:#39ff14; font-weight:bold">ULOGE:</span> ${glumciStr}</p>`;
-        }
-
         layout.appendChild(info);
         modalContent.appendChild(layout);
         modal.appendChild(modalContent);
         this.host.appendChild(modal);
     }
 
-    // --- MODAL LOGIN/REG ---
+    // --- LOGIKA ZA PRIJAVU I REGISTRACIJU ---
     DrawModal(tip) {
         const modal = document.createElement("div");
         modal.classList.add("modal");
@@ -227,36 +203,115 @@ export class Home {
         naslov.style.color = "#fff";
         modalContent.appendChild(naslov);
 
-        const userIn = document.createElement("input");
-        userIn.placeholder = "KORISNIČKO IME";
-        userIn.classList.add("neon-input");
+        // Input polja
+        let imeIn = null, prezimeIn = null, godineIn = null;
+
+        if(tip === "Registracija") {
+            imeIn = document.createElement("input"); imeIn.placeholder = "IME"; imeIn.classList.add("neon-input");
+            modalContent.appendChild(imeIn);
+
+            prezimeIn = document.createElement("input"); prezimeIn.placeholder = "PREZIME"; prezimeIn.classList.add("neon-input");
+            modalContent.appendChild(prezimeIn);
+
+            godineIn = document.createElement("input"); godineIn.type = "number"; godineIn.placeholder = "GODINE"; godineIn.classList.add("neon-input");
+            modalContent.appendChild(godineIn);
+        }
+
+        const userIn = document.createElement("input"); userIn.placeholder = "KORISNIČKO IME"; userIn.classList.add("neon-input");
         modalContent.appendChild(userIn);
 
-        const passIn = document.createElement("input");
-        passIn.type = "password";
-        passIn.placeholder = "LOZINKA";
-        passIn.classList.add("neon-input");
+        const passIn = document.createElement("input"); passIn.type = "password"; passIn.placeholder = "LOZINKA"; passIn.classList.add("neon-input");
         modalContent.appendChild(passIn);
 
-        if(tip === "Registracija"){
-            const emailIn = document.createElement("input");
-            emailIn.placeholder = "EMAIL ADRESA";
-            emailIn.classList.add("neon-input");
-            modalContent.insertBefore(emailIn, passIn);
-        }
+        // Mesto za greške
+        const msgDiv = document.createElement("div");
+        msgDiv.style.color = "#39ff14"; 
+        msgDiv.style.fontSize = "0.8rem"; 
+        msgDiv.style.marginTop = "15px";
+        msgDiv.style.textAlign = "center";
+        msgDiv.style.textShadow = "0 0 5px #39ff14";
+        modalContent.appendChild(msgDiv);
 
         const confirmBtn = document.createElement("button");
         confirmBtn.innerText = "POTVRDI";
         confirmBtn.classList.add("modal-text-btn");
         
-        confirmBtn.onclick = () => {
-            if(userIn.value !== "" && passIn.value !== "") {
-                modal.remove();
-                if(this.onLoginSuccess) this.onLoginSuccess();
+        confirmBtn.onclick = async () => {
+            msgDiv.innerText = "";
+            
+            // Validacija polja
+            if (tip === "Prijava") {
+                if(!userIn.value || !passIn.value) { msgDiv.innerText = "Unesite korisničko ime i lozinku."; return; }
             } else {
-                alert("Popunite sva polja!");
+                if(!userIn.value || !passIn.value || !imeIn.value || !prezimeIn.value || !godineIn.value) {
+                    msgDiv.innerText = "Sva polja su obavezna."; return;
+                }
+            }
+
+            // --- REGISTRACIJA ---
+            if(tip === "Registracija") {
+                const registracijaPodaci = {
+                    username: userIn.value,
+                    password: passIn.value,
+                    ime: imeIn.value,
+                    prezime: prezimeIn.value,
+                    godine: parseInt(godineIn.value),
+                    role: "User" 
+                };
+
+                try {
+                    const resp = await fetch("https://localhost:7172/api/Korisnik/Registracija", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(registracijaPodaci)
+                    });
+
+                    if(resp.ok) {
+                        alert("Uspešna registracija! Sada se prijavite.");
+                        modal.remove();
+                        this.DrawModal("Prijava");
+                    } else {
+                        const errorText = await resp.text();
+                        msgDiv.innerText = errorText; 
+                    }
+                } catch(e) { console.error(e); msgDiv.innerText = "Greška servera."; }
+
+            } else {
+                // --- PRIJAVA (LOGIN) ---
+                const loginPodaci = {
+                    username: userIn.value,
+                    password: passIn.value
+                };
+
+                try {
+                    const resp = await fetch("https://localhost:7172/api/Korisnik/Prijava", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(loginPodaci)
+                    });
+
+                    if(resp.ok) {
+                        // 1. PRVO PARSIRAMO PODATKE
+                        const data = await resp.json(); 
+                        
+                        // 2. ONDA IH KORISTIMO I ČUVAMO
+                        localStorage.setItem("username", data.username);
+                        localStorage.setItem("token", data.token);
+
+                        modal.remove();
+                        
+                        if(this.onLoginSuccess) this.onLoginSuccess(data.role); 
+                    } else {
+                        const errorData = await resp.json(); 
+                        msgDiv.innerText = errorData.invalidMessage || "Pogrešni podaci.";
+                    }
+                } catch(e) { 
+                    console.error(e); 
+                    msgDiv.innerText = "Greška servera (Da li ste restartovali C#?)."; 
+                }
             }
         };
+
         modalContent.appendChild(confirmBtn);
         modal.appendChild(modalContent);
         this.host.appendChild(modal);

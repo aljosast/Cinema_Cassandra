@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using BCrypt.Net;
 
 namespace Cinema.Controllers
 {
@@ -39,7 +40,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [AllowAnonymous]
         [HttpPost("Registracija")]
         public async Task<IActionResult> SignUp([FromBody]Korisnik user)
         {
@@ -58,7 +59,19 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpGet("SviKorisnici")]
+        public IActionResult SviKorisnici()
+        {
+            try
+            {
+                return Ok(korisnikProvider.GetAllUsers());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [AllowAnonymous]
         [HttpPost("Prijava")]
         public async Task<IActionResult> LogIn([FromBody] LoginData user)
         {

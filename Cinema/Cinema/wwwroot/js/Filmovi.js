@@ -128,18 +128,32 @@ export function layout(host) {
     const linksDiv = document.createElement("div");
     linksDiv.classList.add("header-links");
 
-    const moviesBtn = document.createElement("button");
-    moviesBtn.innerText = "LISTA FILMOVA";
-    moviesBtn.classList.add("text-link", "nav-active");
-    moviesBtn.onclick = () => { DrawAdminPage(); };
-    linksDiv.appendChild(moviesBtn);
-
+    
+    const moviesBtn1 = document.createElement("button");
+    moviesBtn1.innerText = "FILMOVI"; // Skrati naziv
+    moviesBtn1.classList.add("text-link");
+    moviesBtn1.onclick = () => { 
+        // Ovde moramo uvesti DrawAdminPage iz main.js ako nije dostupno
+        // Ali pošto je kružni import, najbolje je uraditi ovo:
+        import("./main.js").then(m => m.DrawAdminPage());
+    };
+    linksDiv.appendChild(moviesBtn1);
+    
+    // --- NOVO DUGME ---
+    const cinemaBtn = document.createElement("button");
+    cinemaBtn.innerText = "BIOSKOPI";
+    cinemaBtn.classList.add("text-link");
+    cinemaBtn.onclick = () => { 
+        // Dinamički importujemo Bioskopi.js i pozivamo crtanje
+        import("./Bioskopi.js").then(module => module.DrawBioskopiPage());
+    };
+    linksDiv.appendChild(cinemaBtn);
+    
     const logoutBtn = document.createElement("button");
     logoutBtn.innerText = "ODJAVI SE";
     logoutBtn.classList.add("text-link");
     logoutBtn.onclick = () => { location.reload(); }; 
     linksDiv.appendChild(logoutBtn);
-
     header.appendChild(linksDiv);
 }
 

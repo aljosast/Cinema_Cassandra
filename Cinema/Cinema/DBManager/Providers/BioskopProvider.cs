@@ -1,201 +1,164 @@
-using System.Runtime.Versioning;
 using Cinema.DBManager.Entities;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace Cinema.DBManager.Providers
 {
     public class BioskopProvider
     {
-        public List<Bioskop> GetAllCinemas()
-        {
-            try
-            {
-                Cassandra.ISession session = SessionManager.GetSession();
-                List<Bioskop> bioskopi = new List<Bioskop>();
-
-                if (session == null) return null;
-
-                var data = session.Execute("select * from \"Bioskop\"");
-
-                foreach(var d in data)
-                {
-                    Bioskop bioskop = new Bioskop();
-                    bioskop.ID = d["ID"] != null ? d["ID"].ToString() : String.Empty;
-                    bioskop.Naziv = d["Naziv"] != null ? d["Naziv"].ToString() : String.Empty;
-                    bioskop.Grad = d["Grad"] != null ? d["Grad"].ToString() : String.Empty;
-                    bioskop.Adresa = d["Adresa"] != null ? d["Adresa"].ToString() : String.Empty;
-
-                    List<Projekcija> projekcije = new List<Projekcija>();
-                    var projData = session.Execute($"select * from \"Projekcija\" where \"BioskopID\" = '{bioskop.ID}'");
-
-                    foreach(var pd in projData)
-                    {
-                        Projekcija projekcija = new Projekcija();
-                        projekcija.ID = pd["ID"] != null ? pd["ID"].ToString() : String.Empty;
-                        projekcija.FilmID = pd["FilmID"] != null ? pd["FilmID"].ToString() : String.Empty;
-                        projekcija.BioskopID = pd["BioskopID"] != null ? pd["BioskopID"].ToString() : String.Empty;
-                        projekcija.BrojSale = pd["BrojSale"] != null ? Convert.ToInt32(pd["BrojSale"]) : 0;
-                        projekcija.BrojMesta = pd["BrojMesta"] != null ? Convert.ToInt32(pd["BrojMesta"]) : 0;
-                        projekcija.BrojRezervacija = pd["BrojRezervacija"] != null ? Convert.ToInt32(pd["BrojRezervacija"]) : 0;
-                        projekcija.NazivFilma = pd["NazivFilma"] != null ? pd["NazivFilma"].ToString() : String.Empty;
-                        projekcija.Slika = pd["Slika"] != null ? pd["Slika"].ToString() : String.Empty;
-                        //projekcija.Vreme = pd["Vreme"] != null ? Convert.ToDateTime(pd["Vreme"]) : new DateTime();
-                        projekcija.Vreme = pd["Vreme"] != null ? pd.GetValue<DateTime>("Vreme") : new DateTime();
-                        projekcije.Add(projekcija);
-                    }
-                    bioskop.Projekcije = projekcije;
-                    bioskopi.Add(bioskop);
-                }
-                return bioskopi;
-            }
-            catch(Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public List<Bioskop> GetAllCinemas(string grad)
-        {
-            try
-            {
-                Cassandra.ISession session = SessionManager.GetSession();
-                List<Bioskop> bioskopi = new List<Bioskop>();
-
-                if (session == null) return null;
-
-                var data = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{grad}'");
-
-                foreach(var d in data)
-                {
-                    Bioskop bioskop = new Bioskop();
-                    bioskop.ID = d["ID"] != null ? d["ID"].ToString() : String.Empty;
-                    bioskop.Naziv = d["Naziv"] != null ? d["Naziv"].ToString() : String.Empty;
-                    bioskop.Grad = d["Grad"] != null ? d["Grad"].ToString() : String.Empty;
-                    bioskop.Adresa = d["Adresa"] != null ? d["Adresa"].ToString() : String.Empty;
-
-                    List<Projekcija> projekcije = new List<Projekcija>();
-                    var projData = session.Execute($"select * from \"Projekcija\" where \"BioskopID\" = '{bioskop.ID}'");
-
-                    foreach(var pd in projData)
-                    {
-                        Projekcija projekcija = new Projekcija();
-                        projekcija.ID = pd["ID"] != null ? pd["ID"].ToString() : String.Empty;
-                        projekcija.FilmID = pd["FilmID"] != null ? pd["FilmID"].ToString() : String.Empty;
-                        projekcija.BioskopID = pd["BioskopID"] != null ? pd["BioskopID"].ToString() : String.Empty;
-                        projekcija.BrojSale = pd["BrojSale"] != null ? Convert.ToInt32(pd["BrojSale"]) : 0;
-                        projekcija.BrojMesta = pd["BrojMesta"] != null ? Convert.ToInt32(pd["BrojMesta"]) : 0;
-                        projekcija.BrojRezervacija = pd["BrojRezervacija"] != null ? Convert.ToInt32(pd["BrojRezervacija"]) : 0;
-                        projekcija.NazivFilma = pd["NazivFilma"] != null ? pd["NazivFilma"].ToString() : String.Empty;
-                        projekcija.Slika = pd["Slika"] != null ? pd["Slika"].ToString() : String.Empty;
-                        projekcija.Vreme = pd["Vreme"] != null ? Convert.ToDateTime(pd["Vreme"]) : new DateTime();
-                        //projekcija.Vreme = pd["Vreme"] != null ? pd.GetValue<DateTime>("Vreme") : new DateTime();
-                        projekcije.Add(projekcija);
-                    }
-                    bioskop.Projekcije = projekcije;
-                    bioskopi.Add(bioskop);
-                }
-                return bioskopi;
-            }
-            catch(Exception ex)
-            {
-                return null;
-            }
-        }
+        // 1. DOHVATANJE SVIH GRADOVA
         public List<string> GetAllCities()
         {
-            try
+            var session = SessionManager.GetSession();
+            if (session == null) return new List<string>();
+
+            try 
             {
-                Cassandra.ISession session = SessionManager.GetSession();
+                // Uzimamo samo gradove (DISTINCT nije uvek podrzan na starijim verzijama, ali probajmo ovako)
+                // Ako pukne na DISTINCT, vratićemo se na ručno filtriranje
+                var rows = session.Execute("SELECT \"Grad\" FROM \"Bioskop\"");
+                
                 List<string> gradovi = new List<string>();
-
-                if (session == null) return null;
-
-                var data = session.Execute($"select distinct \"Grad\" from \"Bioskop\"");
-
-                foreach(var d in data)
+                foreach (var row in rows)
                 {
-                    if(d["Grad"] != null)
-                        gradovi.Add(d["Grad"].ToString());
+                    if (!row.IsNull("Grad"))
+                    {
+                        string g = row.GetValue<string>("Grad");
+                        if (!string.IsNullOrWhiteSpace(g) && !gradovi.Contains(g))
+                        {
+                            gradovi.Add(g);
+                        }
+                    }
                 }
                 return gradovi;
-
             }
-            catch(Exception ex)
-            {
-                return null;
-            }
+            catch (Exception) { return new List<string>(); }
         }
-        public bool InsertCinema(Bioskop bioskop)
+
+        // 2. VRATI SVE BIOSKOPE
+        public List<Bioskop> GetAllCinemas()
         {
+            // Oprez: Ovo skenira celu bazu, ali za tvoj projekat je OK.
+            return FetchCinemas("SELECT * FROM \"Bioskop\"");
+        }
+
+        // 3. VRATI BIOSKOPE PO GRADU
+        public List<Bioskop> GetAllCinemas(string grad)
+        {
+            if (string.IsNullOrWhiteSpace(grad) || grad == "all") 
+                return GetAllCinemas();
+
+            // SJAJNA VEST: Pošto je "Grad" Partition Key, ovo je sada savršen upit!
+            // Ne treba ALLOW FILTERING jer gađaš direktno particiju.
+            string query = "SELECT * FROM \"Bioskop\" WHERE \"Grad\" = ?";
+            
+            return FetchCinemas(query, grad);
+        }
+
+        // --- HELPER ZA ČITANJE ---
+        private List<Bioskop> FetchCinemas(string query, string param = null)
+        {
+            var session = SessionManager.GetSession();
+            if (session == null) return new List<Bioskop>();
+
             try
             {
-                Cassandra.ISession session = SessionManager.GetSession();
-                if (session == null) return false;
-
-                var res = session.Execute("insert into \"Bioskop\" (\"ID\", \"Naziv\", \"Grad\", \"Adresa\")" + 
-                $"values ('{bioskop.ID}', '{bioskop.Naziv}', '{bioskop.Grad}', '{bioskop.Adresa}') IF NOT EXISTS");
-
-                bool aplied = res.First().GetValue<bool>("[applied]");
-                return aplied;
-            }
-            catch(Exception ex)
-            {
-                return false;
-            }
-        }
-        public bool UpdateCinema(Bioskop bioskop)
-        {
-            try
-            {
-                Cassandra.ISession session = SessionManager.GetSession();
-                if (session == null) return false;
-
-                var res = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{bioskop.Grad}' and \"ID\" = '{bioskop.ID}'");
-                var row = res.FirstOrDefault();
-
-                Bioskop cinema = new Bioskop
+                Cassandra.RowSet rows;
+                if (param != null)
                 {
-                    ID = row["ID"].ToString(),
-                    Naziv = row["Naziv"].ToString(),
-                    Grad = row["Grad"].ToString(),
-                    Adresa = row["Adresa"].ToString()
-                };
+                    var statement = session.Prepare(query);
+                    rows = session.Execute(statement.Bind(param));
+                }
+                else
+                {
+                    rows = session.Execute(query);
+                }
+                
+                List<Bioskop> bioskopi = new List<Bioskop>();
+                foreach (var row in rows)
+                {
+                    // Mapiranje 1 na 1 sa tvojom tabelom
+                    bioskopi.Add(new Bioskop
+                    {
+                        ID = row.GetValue<string>("ID"),
+                        Naziv = !row.IsNull("Naziv") ? row.GetValue<string>("Naziv") : "Bez naziva",
+                        Grad = !row.IsNull("Grad") ? row.GetValue<string>("Grad") : "Nepoznat",
+                        Adresa = !row.IsNull("Adresa") ? row.GetValue<string>("Adresa") : "",
+                        
+                        // BITNO: Inicijalizujemo praznu listu projekcija.
+                        // Projekcije se učitavaju NAKNADNO preko ProjekcijaProvider-a
+                        // da ne bi pucala aplikacija (N+1 problem rešen).
+                        Projekcije = new List<Projekcija>() 
+                    });
+                }
+                return bioskopi;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("GREŠKA: " + ex.Message);
+                return new List<Bioskop>();
+            }
+        }
 
-                if(cinema.Naziv != bioskop.Naziv)
-                    session.Execute($"update \"Bioskop\" set \"Naziv\" = '{bioskop.Naziv}' where \"Grad\" = '{bioskop.Grad}' and \"ID\" = '{bioskop.ID}'");
-                if(cinema.Adresa != bioskop.Adresa)
-                    session.Execute($"update \"Bioskop\" set \"Adresa\" = '{bioskop.Adresa}' where \"Grad\" = '{bioskop.Grad}' and \"ID\" = '{bioskop.ID}'");
+        // 4. INSERT (DODAVANJE)
+        public bool InsertCinema(Bioskop b)
+        {
+            try
+            {
+                var session = SessionManager.GetSession();
+                
+                // Tvoja tabela traži ID, Naziv, Grad, Adresa
+                var st = session.Prepare("INSERT INTO \"Bioskop\" (\"ID\", \"Naziv\", \"Grad\", \"Adresa\") VALUES (?, ?, ?, ?)");
+                session.Execute(st.Bind(b.ID, b.Naziv, b.Grad, b.Adresa));
                 return true;
             }
-            catch(Exception ex)
-            {
-                return false;
-            }
+            catch { return false; }
         }
+
+        // 5. UPDATE (IZMENA)
+        public bool UpdateCinema(Bioskop b)
+        {
+            try
+            {
+                var session = SessionManager.GetSession();
+                
+                // KOD TEBE JE PRIMARNI KLJUČ (Grad, ID).
+                // To znači da MOŽEŠ da menjaš Naziv i Adresu, ali NE MOŽEŠ da menjaš Grad ili ID direktno update-om.
+                // Ovaj upit je ispravan za tvoju šemu:
+                var st = session.Prepare("UPDATE \"Bioskop\" SET \"Naziv\"=?, \"Adresa\"=? WHERE \"Grad\"=? AND \"ID\"=?");
+                session.Execute(st.Bind(b.Naziv, b.Adresa, b.Grad, b.ID));
+                return true;
+            }
+            catch { return false; }
+        }
+
+        // 6. DELETE (BRISANJE)
         public bool DeleteCinema(string grad, string id)
         {
             try
             {
-                Cassandra.ISession session = SessionManager.GetSession();
+                var session = SessionManager.GetSession();
 
-                if (session == null)
-                    return false;
+                // 1. Obriši projekcije tog bioskopa
+                // Pošto je u tabeli Projekcija PK ("BioskopID", "ID"), 
+                // BioskopID je Partition Key, pa je ovo brzo i sigurno!
+                try {
+                    var delProj = session.Prepare("DELETE FROM \"Projekcija\" WHERE \"BioskopID\" = ?");
+                    session.Execute(delProj.Bind(id));
+                } catch { /* Ignorišemo grešku ako nema projekcija */ }
+
+                // 2. Obriši bioskop
+                // Moraš navesti OBA dela primarnog ključa: Grad i ID
+                var st = session.Prepare("DELETE FROM \"Bioskop\" WHERE \"Grad\" = ? AND \"ID\" = ?");
+                session.Execute(st.Bind(grad, id));
                 
-                var data = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{grad}' and \"ID\" = '{id}'");
-                var res = data.FirstOrDefault();
-                if(res == null) return false;
-
-                session.Execute($"DELETE FROM \"Bioskop\" WHERE \"Grad\" = '{grad}' and \"ID\" = '{id}'");
-                session.Execute($"DELETE FROM \"Projekcija\" WHERE \"BioskopID\" = '{id}'");
-
-                data = session.Execute($"select * from \"Bioskop\" where \"Grad\" = '{grad}' and \"ID\" = '{id}'");
-                res = data.FirstOrDefault();
-
-                if(res == null) return true;
-                else return false;
+                return true;
             }
-            catch (Exception ex)
-            {
-                return false;
+            catch (Exception ex) 
+            { 
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return false; 
             }
         }
     }

@@ -1,24 +1,37 @@
- // --- KLJUČNA PROMENA: UVOZIMO IZ AdminMain.js ---
-import { Filmovi, layout } from "./Filmovi.js";
+import { Filmovi, layout } from "./Filmovi.js"; // Pretpostavljam da je ovo AdminMain.js preimenovan
 import { Home } from "./Home.js";
+import { DrawBioskopiPage } from "./Bioskopi.js"; // OVO NAM TREBA ZA KORISNIKA
+import { DrawAdminHeader } from "./Navigation.js";
 
 const host = document.getElementById("app");
 let page = 0;
 let max_page = 0;
 
 // --- 1. POKRETANJE (LOGIN EKRAN) ---
-initApp();
+// Prvo čekamo da se učita DOM, za svaki slučaj
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("app")) {
+        initApp();
+    }
+});
 
 export function initApp() {
     host.innerHTML = "";
     
-    // Callback: Šta radimo kad je login uspešan?
-    const onLoginSuccess = () => {
-        // Crtamo ADMIN panel
-        DrawAdminPage(); 
+    // Callback funkcija koju Home.js poziva kad je login uspešan
+    const onLoginSuccess = (role) => {
+        console.log("Ulogovan kao:", role);
+
+        if (role === "Admin") {
+            // ADMIN -> Ide na listu filmova sa opcijama za editovanje
+            DrawBioskopiPage(true);
+        } else {
+            // KORISNIK -> Ide na listu bioskopa
+            // false znači: "Nije admin, sakrij dugmiće za brisanje i prikaži rezervaciju"
+            DrawBioskopiPage(false); 
+        }
     };
 
-    // Crtamo HOME stranu
     const homePage = new Home(host, onLoginSuccess);
     homePage.DrawHomePage();
 }
@@ -27,8 +40,8 @@ export function initApp() {
 export async function DrawAdminPage() {
     host.innerHTML = "";
     
-    // Crtamo header (navigaciju) iz AdminMain.js
-    layout(host);
+    // Crtamo header (navigaciju)
+    DrawAdminHeader(host, "filmovi");
 
     const contentWrapper = document.createElement("div");
     contentWrapper.style.paddingTop = "20px";
@@ -65,7 +78,7 @@ export async function DrawAdminPage() {
             cardsContainer.innerHTML = "<h3 style='color:white'>Nema filmova.</h3>";
         } else {
             for (let d of data) {
-                // Koristimo AdminFilm klasu
+                // Koristimo AdminFilm klasu (koja se ovde zove Filmovi)
                 let film = new Filmovi(cardsContainer, d.id, d.naziv, d.zanr, d.reziser, d.dugiOpis, d.opis, d.slika, d.glumci);
                 film.Kartica();
             }
