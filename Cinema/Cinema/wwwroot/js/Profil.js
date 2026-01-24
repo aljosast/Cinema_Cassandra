@@ -234,7 +234,7 @@ export class MojProfil {
         try {
             const resp = await fetch("https://localhost:7172/api/Korisnik/EditAccount", {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem("token")}` },
                 body: JSON.stringify(objZaSlanje)
             });
 

@@ -1,5 +1,6 @@
 using Cinema.DBManager.Entities;
 using Cinema.DBManager.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cinema.Controllers
@@ -14,7 +15,8 @@ namespace Cinema.Controllers
         {
             this.bioskopProvider = provider;
         }
-        
+
+        [Authorize]
         [HttpGet("ListaBioskopa")]
         public async Task<IActionResult> ListaBioskopa()
         {
@@ -28,6 +30,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("ListaBioskopa/{grad}")]
         public async Task<IActionResult> ListaBioskopa(string grad)
         {
@@ -41,6 +44,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("ListaGradova")]
         public async Task<IActionResult> ListaGradova()
         {
@@ -53,7 +57,7 @@ namespace Cinema.Controllers
                 return BadRequest("Došlo je do greške: " + ex.Message);
             }
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost("DodajBioskop")]
         public async Task<IActionResult> DodajBioskop([FromBody] Bioskop bioskop)
         {
@@ -69,6 +73,7 @@ namespace Cinema.Controllers
                 return BadRequest("Došlo je do greške: " + ex.Message);
             }
         }
+        [Authorize(Roles = "admin")]
         [HttpPut("IzmeniBioskop")]
         public async Task<IActionResult> IzmeniBioskop([FromBody] Bioskop bioskop)
         {
@@ -83,6 +88,7 @@ namespace Cinema.Controllers
                 return BadRequest("Došlo je do greške: " + ex.Message);
             }
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete("ObrisiBioskop/{grad}/{id}")]
         public async Task<IActionResult> ObrisiFilm(string grad, string id)
         {

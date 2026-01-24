@@ -65,7 +65,13 @@ export class ProjekcijePage {
 
     async FetchProjekcije() {
         try {
-            const res = await fetch(`https://localhost:7172/api/Projekcija/ListaProjekcija/${this.bioskopId}`);
+            const token = localStorage.getItem("token");
+            const res = await fetch(`https://localhost:7172/api/Projekcija/ListaProjekcija/${this.bioskopId}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
             if(res.ok) this.data = await res.json();
             else this.data = [];
         } catch(e) { console.error(e); }
@@ -238,14 +244,22 @@ export class ProjekcijePage {
                 ukupnaCena: seats * cenaPoKarti
             };
 
+            const token = localStorage.getItem("token");
+
             try {
                 const r = await fetch("https://localhost:7172/api/Rezervacija/Rezervacija", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    }, 
                     body: JSON.stringify(dto)
                 });
 
                 if (r.ok) {
+
+                    // Dodati fetch za imenu broja rezervisanih mesta
+
                     alert("Uspešno ste rezervisali kartu!");
                     modal.remove();
                 } else {
@@ -340,16 +354,21 @@ export class ProjekcijePage {
                 BrojMesta: parseInt(inMesta.value),
                 Vreme: inVreme.value,
                 Cena: parseFloat(inCena.value),
+                BrojRezervacija: 0,
                 Slika: isEdit ? p.slika : "" // Zadržavamo sliku ako je edit
             };
 
             const url = isEdit ? "https://localhost:7172/api/Projekcija/IzmeniProjekciju" : "https://localhost:7172/api/Projekcija/DodajProjekciju";
             const method = isEdit ? "PUT" : "POST";
+            const token = localStorage.getItem("token");
 
             try {
                 const r = await fetch(url, {
                     method: method,
-                    headers: {"Content-Type":"application/json"},
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
                     body: JSON.stringify(obj)
                 });
                 if(r.ok) {
@@ -368,9 +387,17 @@ export class ProjekcijePage {
     }
 
     async DeleteProjekcija(id) {
+
+        const token = localStorage.getItem("token");
         if(!confirm("Da li ste sigurni da želite da obrišete projekciju?")) return;
         try {
-            const r = await fetch(`https://localhost:7172/api/Projekcija/ObrisiProjekciju/${this.bioskopId}/${id}`, { method: "DELETE" });
+            const r = await fetch(`https://localhost:7172/api/Projekcija/ObrisiProjekciju/${this.bioskopId}/${id}`,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                method: "DELETE"
+            });
             if(r.ok) this.DrawPage();
             else alert("Greška pri brisanju.");
         } catch(e) { console.error(e); }

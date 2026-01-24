@@ -1,6 +1,7 @@
 using Cinema.DBManager.Entities;
 using Cinema.DBManager.Providers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinema.Controllers
 {
@@ -15,6 +16,7 @@ namespace Cinema.Controllers
             this.projekcijaProvider = projekcijaProvider;
         }
 
+        [Authorize]
         [HttpGet("ListaProjekcija/{bioskopID}")]
         public async Task<IActionResult> ListaProjekcija(string bioskopID)
         {
@@ -28,6 +30,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("DodajProjekciju")]
         public async Task<IActionResult> DodajProjekciju([FromBody] Projekcija projekcija)
         {
@@ -45,6 +48,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("IzmeniProjekciju")]
         public async Task<IActionResult> IzmeniProjekciju([FromBody] Projekcija projekcija)
         {
@@ -60,6 +64,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("ObrisiProjekciju/{bioskopID}/{id}")]
         public async Task<IActionResult> ObrisiProjekciju(string bioskopID, string id)
         {

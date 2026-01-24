@@ -26,7 +26,13 @@ export class KorisniciPage {
         container.appendChild(loading);
 
         try {
-            const resp = await fetch("https://localhost:7172/api/Korisnik/SviKorisnici");
+            const token = localStorage.getItem("token");
+            const resp = await fetch("https://localhost:7172/api/Korisnik/SviKorisnici", {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+        });
             if (!resp.ok) throw new Error("Greška servera");
             
             this.data = await resp.json();
@@ -175,9 +181,13 @@ export class KorisniciPage {
                 };
                 
                 try {
+                    const token = localStorage.getItem("token");
                     const r = await fetch("https://localhost:7172/api/Korisnik/EditAccount", {
                         method: "PUT",
-                        headers: { "Content-Type": "application/json" },
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
                         body: JSON.stringify(obj)
                     });
                     if(r.ok) {
@@ -210,9 +220,13 @@ export class KorisniciPage {
         if(!confirm(`Da li ste sigurni da želite da obrišete korisnika ${username}?`)) return;
 
         try {
+            const token = localStorage.getItem("token");
             const r = await fetch("https://localhost:7172/api/Korisnik/DeleteAccount", {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify(username)
             });
 

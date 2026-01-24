@@ -22,7 +22,7 @@ export function initApp() {
     const onLoginSuccess = (role) => {
         console.log("Ulogovan kao:", role);
 
-        if (role === "Admin") {
+        if (role === "admin") {
             // ADMIN -> Ide na listu filmova sa opcijama za editovanje
             DrawBioskopiPage(true);
         } else {

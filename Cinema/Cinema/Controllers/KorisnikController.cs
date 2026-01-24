@@ -59,6 +59,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "admin")]
         [HttpGet("SviKorisnici")]
         public IActionResult SviKorisnici()
         {
@@ -134,7 +135,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize]
         [HttpPut("EditAccount")]
         public async Task<IActionResult> EditAccount([FromBody] KorisnikDTO user)
         {
@@ -153,7 +154,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize]
         [HttpPut("EditPassword")]
         public async Task<IActionResult> EditPassword([FromBody] string username, string oldPassword, string newPassword)
         {
@@ -172,7 +173,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = "admin")]
         [HttpDelete("DeleteAccount")]
         public async Task<IActionResult> DeleteAccount([FromBody] string username)
         {

@@ -40,7 +40,13 @@ export class MojeProjekcijePage {
 
     async FetchRezervacije() {
         try {
-            const r = await fetch(`https://localhost:7172/api/Rezervacija/ListaRezervacija/${this.username}`);
+            const token = localStorage.getItem("token");
+            const r = await fetch(`https://localhost:7172/api/Rezervacija/ListaRezervacija/${this.username}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
             if(r.ok) this.data = await r.json();
             else this.data = [];
         } catch(e) { console.error(e); }
@@ -128,9 +134,13 @@ export class MojeProjekcijePage {
         if(!confirm("Da li ste sigurni da želite da otkažete ovu rezervaciju?")) return;
 
         try {
+            const token = localStorage.getItem("token");
             const r = await fetch(`https://localhost:7172/api/Rezervacija/DeleteReservation?id=${id}`, {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify(this.username)
             });
 

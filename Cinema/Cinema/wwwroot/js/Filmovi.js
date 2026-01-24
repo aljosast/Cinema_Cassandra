@@ -159,9 +159,13 @@ export function layout(host) {
 
 async function obrisifilm(id) {
     try {
+        const token = localStorage.getItem("token");
         const response = await fetch(`https://localhost:7172/api/Film/ObrisiFilm/${id}`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" }
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
         });
         if (response.ok) {
             alert("Film je uspešno obrisan!");

@@ -1,5 +1,6 @@
 ﻿using Cinema.DBManager.Entities;
 using Cinema.DBManager.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace Cinema.Controllers
             rezervacijaProvider = r;
         }
 
+        [Authorize(Roles = "user")]
         [HttpPost("Rezervacija")]
         public async Task<IActionResult> SignUp([FromBody] Rezervacija rezervacija)
         {
@@ -34,7 +36,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = "user")]
         [HttpDelete("DeleteReservation")]
         public async Task<IActionResult> DeleteReservation([FromBody] string username, string id)
         {
@@ -53,7 +55,7 @@ namespace Cinema.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Roles = "user")]
         [HttpGet("ListaRezervacija/{username}")]
         public async Task<IActionResult> ListaRezervacija(string username)
         {

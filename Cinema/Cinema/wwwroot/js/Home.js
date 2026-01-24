@@ -293,6 +293,7 @@ export class Home {
                     if(resp.ok) {
                         // 1. PRVO PARSIRAMO PODATKE
                         const data = await resp.json(); 
+                        console.log(`Data.token = ${data.token}`)
                         
                         // 2. ONDA IH KORISTIMO I ČUVAMO
                         localStorage.setItem("username", data.username);

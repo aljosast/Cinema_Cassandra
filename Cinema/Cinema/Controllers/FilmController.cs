@@ -2,6 +2,7 @@
 using Cinema.Controllers.DTO;
 using Cinema.DBManager.Entities;
 using Cinema.DBManager.Providers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +59,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost("PostaviFilm")]
         public async Task<IActionResult> PostaviFilm([FromForm] FilmDTO film)
         {
@@ -102,6 +104,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("IzmeniFilm")]
         public async Task<IActionResult> IzmeniFilm([FromForm] FilmDTO film)
         {
@@ -144,6 +147,7 @@ namespace Cinema.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("ObrisiFilm/{id}")]
         public async Task<IActionResult> ObrisiFilm(string id)
         {

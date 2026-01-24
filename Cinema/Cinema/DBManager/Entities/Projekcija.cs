@@ -11,5 +11,6 @@ namespace Cinema.DBManager.Entities
         public DateTime Vreme { get; set; }
         public string NazivFilma { get; set; }
         public string Slika { get; set; }
+        public int Cena { get; set; }
     }
 }

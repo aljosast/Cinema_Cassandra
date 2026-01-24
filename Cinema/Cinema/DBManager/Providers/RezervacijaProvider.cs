@@ -23,8 +23,8 @@ namespace Cinema.DBManager.Providers
 
                 var statement = session.Prepare(
                     "INSERT INTO \"Rezervacija\" " +
-                    "(\"ID\", \"Username\", \"ProjekcijaID\", \"NazivFilma\", \"NazivBioskopa\", \"AdresaBioskopa\", \"VremeProjekcije\") " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)" +
+                    "(\"ID\", \"Username\", \"ProjekcijaID\", \"NazivFilma\", \"NazivBioskopa\", \"AdresaBioskopa\", \"VremeProjekcije\", \"UkupnaCena\", \"BrojMesta\") " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" +
                     "IF NOT EXISTS"
                 );
 
@@ -35,7 +35,9 @@ namespace Cinema.DBManager.Providers
                     rezervacija.NazivFilma,
                     rezervacija.NazivBioskopa,
                     rezervacija.AdresaBioskopa,
-                    rezervacija.VremeProjekcije
+                    rezervacija.VremeProjekcije,
+                    rezervacija.UkupnaCena,
+                    rezervacija.BrojMesta
                 ));
 
                 bool applied = result.First().GetValue<bool>("[applied]");
@@ -120,6 +122,8 @@ namespace Cinema.DBManager.Providers
                     rezervacija.NazivBioskopa = res["NazivBioskopa"] != null ? res["NazivBioskopa"].ToString() : String.Empty;
                     rezervacija.AdresaBioskopa = res["AdresaBioskopa"] != null ? res["AdresaBioskopa"].ToString() : String.Empty;
                     rezervacija.VremeProjekcije = res["VremeProjekcije"] != null ? res.GetValue<DateTime>("VremeProjekcije") : DateTime.UtcNow;
+                    rezervacija.UkupnaCena = res["UkupnaCena"] != null ? Convert.ToInt32(res["UkupnaCena"]) : 0;
+                    rezervacija.BrojMesta = res["BrojMesta"] != null ? Convert.ToInt32(res["BrojMesta"]) : 0;
 
                     rezervacije.Add(rezervacija);
                 }

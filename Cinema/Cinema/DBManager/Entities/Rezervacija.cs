@@ -9,5 +9,7 @@ namespace Cinema.DBManager.Entities
         public string NazivFilma { get; set; }
         public string NazivBioskopa { get; set; }
         public string AdresaBioskopa { get; set; }
+        public int UkupnaCena { get; set; }
+        public int BrojMesta { get; set; }
     }
 }

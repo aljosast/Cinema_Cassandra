@@ -9,11 +9,11 @@
 
   CREATE TABLE "Projekcija" (     "ID" text,     "FilmID" text,     "BioskopID" text,
  "BrojSale" int,     "BrojMesta" int,      "BrojRezervacija" int,      "Vreme" timestamp,
- "NazivFilma" text,     "Slika" text,    PRIMARY KEY ("BioskopID", "ID") );
+ "NazivFilma" text,     "Slika" text, "Cena" int,    PRIMARY KEY ("BioskopID", "ID") );
 
   CREATE TABLE "Rezervacija" (     "ID" text,     "Username" text,     "ProjekcijaID" text,
   "VremeProjekcije" timestamp,     "NazivFilma" text,     "NazivBioskopa" text,
-  "AdresaBioskopa" text,    PRIMARY KEY ("Username", "ID") );
+  "AdresaBioskopa" text, "UkupnaCena" int, "BrojMesta" int,    PRIMARY KEY ("Username", "ID") );
 
   CREATE TABLE "Korisnik" (     "Username" text,     "Ime" text,     "Prezime" text,     
  "Godine" int,    "Password" text,     "Role" text,    PRIMARY KEY ("Username") );

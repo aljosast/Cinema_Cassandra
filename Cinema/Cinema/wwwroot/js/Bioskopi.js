@@ -126,7 +126,7 @@ export class Bioskop {
     }
 }
 
-export async function DrawBioskopiPage(isAdmin = false) {
+export async function DrawBioskopiPage(isAdmin) {
     const host = document.getElementById("app");
     host.innerHTML = "";
     
@@ -176,7 +176,16 @@ export async function DrawBioskopiPage(isAdmin = false) {
     contentWrapper.appendChild(cardsContainer);
 
     try {
-        const resGradovi = await fetch("https://localhost:7172/api/Bioskop/ListaGradova");
+
+        const token = localStorage.getItem("token");
+        console.log(token)
+        const resGradovi = await fetch("https://localhost:7172/api/Bioskop/ListaGradova", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        
+        });
         if(resGradovi.ok) {
             const gradovi = await resGradovi.json();
             const allOption = document.createElement("option"); 
@@ -194,6 +203,8 @@ export async function DrawBioskopiPage(isAdmin = false) {
     } catch(err) { console.error(err); }
 
     const fetchBioskopi = async (grad = "all") => {
+
+        const token = localStorage.getItem("token");
         cardsContainer.innerHTML = "<h3 style='color:white'>Učitavanje...</h3>";
         
         let url = "https://localhost:7172/api/Bioskop/ListaBioskopa";
@@ -202,7 +213,12 @@ export async function DrawBioskopiPage(isAdmin = false) {
         }
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url,{
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
             
             if (!response.ok) {
                 const greskaTekst = await response.text(); 
@@ -286,6 +302,8 @@ export function DrawBioskopForm(id = "", naziv = "", adresa = "", grad = "", edi
             adresa: inAdresa.value, 
             grad: inGrad.value 
         };
+
+        const token = localStorage.getItem("token");
         
         const url = edit ? "https://localhost:7172/api/Bioskop/IzmeniBioskop" : "https://localhost:7172/api/Bioskop/DodajBioskop";
         const method = edit ? "PUT" : "POST";
@@ -293,7 +311,10 @@ export function DrawBioskopForm(id = "", naziv = "", adresa = "", grad = "", edi
         try {
             const resp = await fetch(url, { 
                 method: method, 
-                headers: { "Content-Type": "application/json" }, 
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }, 
                 body: JSON.stringify(obj) 
             });
             if(resp.ok) { DrawBioskopiPage(true); } 
@@ -315,7 +336,15 @@ export function DrawBioskopForm(id = "", naziv = "", adresa = "", grad = "", edi
 
 async function obrisiBioskop(grad, id) {
     try {
-        const resp = await fetch(`https://localhost:7172/api/Bioskop/ObrisiBioskop/${grad}/${id}`, { method: "DELETE" });
+
+        const token = localStorage.getItem("token");
+        const resp = await fetch(`https://localhost:7172/api/Bioskop/ObrisiBioskop/${grad}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
         if(resp.ok) DrawBioskopiPage(true);
     } catch(e) { console.error(e); }
 }

@@ -25,10 +25,12 @@ namespace Cinema.DBManager.Providers
                         BrojRezervacija = d["BrojRezervacija"] != null ? Convert.ToInt32(d["BrojRezervacija"]) : 0,
                         NazivFilma = d["NazivFilma"] != null ? d["NazivFilma"].ToString() : String.Empty,
                         Slika = d["Slika"] != null ? d["Slika"].ToString() : String.Empty,
-                        Vreme = d["Vreme"] != null ? d.GetValue<DateTime>("Vreme") : new DateTime()
+                        Vreme = d["Vreme"] != null ? d.GetValue<DateTime>("Vreme") : new DateTime(),
+                        Cena = d["Cena"] != null ? Convert.ToInt32(d["Cena"]) : 0
                     };
                     projekcije.Add(projekcija);
                 }
+                projekcije.OrderBy(x => x.Vreme);
                 return projekcije;
             }
             catch(Exception ex)
@@ -46,8 +48,8 @@ namespace Cinema.DBManager.Providers
 
                 var insert = session.Prepare(
                     "INSERT INTO \"Projekcija\" " +
-                    "(\"ID\", \"FilmID\", \"BioskopID\", \"BrojSale\", \"BrojMesta\", \"BrojRezervacija\", \"NazivFilma\", \"Slika\", \"Vreme\") " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS"
+                    "(\"ID\", \"FilmID\", \"BioskopID\", \"BrojSale\", \"BrojMesta\", \"BrojRezervacija\", \"NazivFilma\", \"Slika\", \"Vreme\", \"Cena\") " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) IF NOT EXISTS"
                 );
 
                 var bound = insert.Bind(
@@ -59,7 +61,8 @@ namespace Cinema.DBManager.Providers
                     projekcija.BrojRezervacija,
                     projekcija.NazivFilma,
                     projekcija.Slika,
-                    projekcija.Vreme
+                    projekcija.Vreme,
+                    projekcija.Cena
                 );
 
                 var res = session.Execute(bound);
@@ -88,7 +91,8 @@ namespace Cinema.DBManager.Providers
                     "\"BrojRezervacija\" = ?, " +
                     "\"Vreme\" = ?, " +
                     "\"NazivFilma\" = ?, " +
-                    "\"Slika\" = ? " +
+                    "\"Slika\" = ?, " +
+                    "\"Cena\" = ? " +
                     "where \"BioskopID\" = ? and \"ID\" = ? IF EXISTS"
                 );
                 var res = session.Execute(
@@ -100,6 +104,7 @@ namespace Cinema.DBManager.Providers
                         projekcija.Vreme,
                         projekcija.NazivFilma,
                         projekcija.Slika,
+                        projekcija.Cena,
                         projekcija.BioskopID,
                         projekcija.ID
                     )
