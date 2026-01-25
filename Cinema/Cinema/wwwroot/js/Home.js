@@ -11,7 +11,7 @@ export class Home {
     async DrawHomePage() {
         this.host.innerHTML = "";
         
-        // --- 1. POZADINA I HEADER ---
+        //  POZADINA I HEADER
         const bg = document.createElement("div");
         bg.classList.add("background-blur");
         const bgGrid = document.createElement("div");
@@ -55,7 +55,7 @@ export class Home {
         header.appendChild(linksDiv);
         this.host.appendChild(header);
 
-        // --- 2. SADRŽAJ (Filmovi) ---
+        // SADRŽAJ (Filmovi)
         const mainContent = document.createElement("div");
         mainContent.classList.add("home-center");
 
@@ -89,7 +89,7 @@ export class Home {
         mainContent.appendChild(wrapper);
         this.host.appendChild(mainContent);
 
-        // --- FETCH FILMOVA ---
+        //  FETCH FILMOVA
         try {
             const response = await fetch("https://localhost:7172/api/Film/ListaFilmova/0");
             if(response.ok) {
@@ -117,17 +117,17 @@ export class Home {
                         strip.appendChild(frame);
                     });
 
-                    // Skrolovanje (Ažurirano za šire slike)
+                    // Skrolovanje
                     const moveStrip = () => { strip.style.transform = `translateX(-${this.currentScroll}px)`; };
                     const goRight = () => {
-                        const itemWidth = 350; // <--- NOVA ŠIRINA (320px slika + 30px gap)
+                        const itemWidth = 350; 
                         const maxScroll = (loopFilmovi.length * itemWidth) - container.offsetWidth;
                         this.currentScroll += itemWidth; 
                         if (this.currentScroll >= maxScroll) this.currentScroll = 0; 
                         moveStrip();
                     };
                     const goLeft = () => {
-                        const itemWidth = 350; // <--- NOVA ŠIRINA
+                        const itemWidth = 350; 
                         const maxScroll = (loopFilmovi.length * itemWidth) - container.offsetWidth;
                         this.currentScroll -= itemWidth; 
                         if (this.currentScroll < 0) this.currentScroll = maxScroll - (maxScroll % itemWidth); 
@@ -183,7 +183,7 @@ export class Home {
         this.host.appendChild(modal);
     }
 
-    // --- LOGIKA ZA PRIJAVU I REGISTRACIJU ---
+    // LOGIKA ZA PRIJAVU I REGISTRACIJU
     DrawModal(tip) {
         const modal = document.createElement("div");
         modal.classList.add("modal");
@@ -248,7 +248,7 @@ export class Home {
                 }
             }
 
-            // --- REGISTRACIJA ---
+            // REGISTRACIJA 
             if(tip === "Registracija") {
                 const registracijaPodaci = {
                     username: userIn.value,
@@ -277,7 +277,7 @@ export class Home {
                 } catch(e) { console.error(e); msgDiv.innerText = "Greška servera."; }
 
             } else {
-                // --- PRIJAVA (LOGIN) ---
+                //  PRIJAVA (LOGIN)
                 const loginPodaci = {
                     username: userIn.value,
                     password: passIn.value

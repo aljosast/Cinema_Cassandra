@@ -5,18 +5,18 @@ export class ProjekcijePage {
         this.host = host;
         this.bioskopId = bioskopId;
         this.bioskopNaziv = bioskopNaziv;
-        this.bioskopAdresa = bioskopAdresa; // Treba nam za rezervaciju
+        this.bioskopAdresa = bioskopAdresa;
         this.isAdmin = isAdmin;
         
         this.data = []; 
-        this.filmoviLista = []; // Za admina kad dodaje projekciju
+        this.filmoviLista = [];
         this.username = localStorage.getItem("username");
     }
 
     async DrawPage() {
         this.host.innerHTML = "";
         
-        // 1. Header (Zavisi ko je ulogovan)
+        // Header
         if (this.isAdmin) DrawAdminHeader(this.host, "bioskopi");
         else DrawUserHeader(this.host, "bioskopi");
 
@@ -32,22 +32,22 @@ export class ProjekcijePage {
             <h2 style="text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;">
                 REPERTOAR: <span style="color:#39ff14">${this.bioskopNaziv}</span>
             </h2>
-            <div style="color: #aaa; font-size: 0.9rem;">📍 ${this.bioskopAdresa}</div>
+            <div style="color: #aaa; font-size: 1rem;">📍 ${this.bioskopAdresa}</div>
         `;
         container.appendChild(headerDiv);
 
-        // 3. Dugme za dodavanje (Samo Admin)
+        // Dugme za dodavanje (Samo Admin)
         if (this.isAdmin) {
             const btnAdd = document.createElement("button");
             btnAdd.innerText = "+ NOVA PROJEKCIJA";
             btnAdd.classList.add("button");
             btnAdd.style.display = "block";
             btnAdd.style.margin = "0 auto 30px auto";
-            btnAdd.onclick = () => this.OpenFormModal(); // Otvara formu za dodavanje
+            btnAdd.onclick = () => this.OpenFormModal();
             container.appendChild(btnAdd);
         }
 
-        // 4. Učitavanje podataka
+        // Učitavanje podataka
         const loading = document.createElement("div");
         loading.innerText = "Učitavanje...";
         loading.style.textAlign = "center";
@@ -55,11 +55,11 @@ export class ProjekcijePage {
         container.appendChild(loading);
 
         await this.FetchProjekcije();
-        if(this.isAdmin) await this.FetchFilmove(); // Adminu trebaju filmovi za dropdown
+        if(this.isAdmin) await this.FetchFilmove();
 
         container.removeChild(loading);
 
-        // 5. Crtanje Mreže (Grid)
+        // Crtanje Mreže (Grid)
         this.DrawGrid(container);
     }
 
@@ -79,6 +79,7 @@ export class ProjekcijePage {
 
     async FetchFilmove() {
         try {
+            
             const res = await fetch(`https://localhost:7172/api/Film/ListaFilmova/0`); 
             if(res.ok) this.filmoviLista = await res.json();
         } catch(e) { console.error(e); }
@@ -86,7 +87,7 @@ export class ProjekcijePage {
 
     DrawGrid(container) {
         const grid = document.createElement("div");
-        grid.classList.add("CardRow"); // Koristimo CSS klasu iz style.css
+        grid.classList.add("CardRow");
         container.appendChild(grid);
 
         if(this.data.length === 0) {
@@ -101,9 +102,9 @@ export class ProjekcijePage {
 
     DrawCard(host, p) {
         const card = document.createElement("div");
-        card.classList.add("movie-card"); // CSS klasa
+        card.classList.add("movie-card");
         
-        // Podaci (fallback ako nešto fali)
+        // Podaci
         const imgUrl = p.slika ? `https://localhost:7172/images/${p.slika}` : "https://via.placeholder.com/300x400?text=No+Image";
         const naziv = p.nazivFilma || "Nepoznat film";
         const vreme = new Date(p.vreme).toLocaleString('sr-RS', { day:'numeric', month:'numeric', hour:'2-digit', minute:'2-digit'});
@@ -130,13 +131,13 @@ export class ProjekcijePage {
         const actionsDiv = card.querySelector(".actions");
 
         if (this.isAdmin) {
-            // --- ADMIN DUGMIĆI ---
+            // ADMIN DUGMICI 
             actionsDiv.style.display = "flex";
             actionsDiv.style.gap = "10px";
 
             const btnEdit = document.createElement("button");
             btnEdit.innerText = "IZMENI";
-            btnEdit.className = "button"; // tvoja css klasa
+            btnEdit.className = "button"; 
             btnEdit.style.flex = "1";
             btnEdit.style.background = "#333";
             btnEdit.onclick = () => this.OpenFormModal(p);
@@ -152,7 +153,7 @@ export class ProjekcijePage {
             actionsDiv.appendChild(btnDel);
 
         } else {
-            // --- KORISNIK DUGME ---
+            //  KORISNIK DUGME
             const btnRez = document.createElement("button");
             btnRez.innerText = "REZERVIŠI";
             btnRez.className = "button";
@@ -168,75 +169,67 @@ export class ProjekcijePage {
         host.appendChild(card);
     }
 
-    // ==========================================
     // LOGIKA ZA KORISNIKA (REZERVACIJA)
-    // ==========================================
-    
+
     OpenReservationModal(p) {
         if (!this.username) {
             alert("Morate biti prijavljeni da biste rezervisali kartu.");
             return;
         }
 
-        // Kreiranje modala
         const modal = document.createElement("div");
         modal.className = "modal";
         modal.style.display = "flex";
         modal.style.alignItems = "center";
         modal.style.justifyContent = "center";
 
-        const content = document.createElement("div");
-        content.className = "neon-modal"; // CSS klasa za lep izgled
-        content.style.width = "400px";
-        content.style.textAlign = "center";
-        
-        // Close dugme
-        const closeBtn = document.createElement("button");
-        closeBtn.innerHTML = "&times;";
-        closeBtn.className = "modal-close-icon";
-        closeBtn.onclick = () => modal.remove();
-        content.appendChild(closeBtn);
-
         const cenaPoKarti = p.cena || 0;
 
-        content.innerHTML += `
-            <h2 style="color: #39ff14; margin-bottom: 10px;">REZERVACIJA</h2>
-            <h4 style="color: white; margin-bottom: 20px;">${p.nazivFilma}</h4>
-            
-            <div style="margin-bottom: 20px;">
-                <label style="color:#aaa; display:block; margin-bottom:5px;">Broj mesta:</label>
-                <input type="number" id="rezMesta" value="1" min="1" max="10" class="input" style="text-align:center; font-size:1.2rem;">
-            </div>
+        // Generišemo sav HTML odjednom
+        modal.innerHTML = `
+            <div class="neon-modal" style="width: 400px; text-align: center; position: relative;">
+                <button class="modal-close-icon" id="closeReservation">&times;</button>
+                <h2 style="color: #39ff14; margin-bottom: 10px;">REZERVACIJA</h2>
+                <h4 style="color: white; margin-bottom: 20px;">${p.nazivFilma}</h4>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="color:#aaa; display:block; margin-bottom:5px;">Broj mesta:</label>
+                    <input type="number" id="rezMesta" value="1" min="1" max="10" class="input" style="text-align:center; font-size:1.2rem;">
+                </div>
 
-            <div style="margin-bottom: 20px;">
-                Ukupno: <span id="rezTotal" style="color:#39ff14; font-size:1.5rem; font-weight:bold;">${cenaPoKarti}</span> RSD
-            </div>
+                <div style="margin-bottom: 20px;">
+                    Ukupno: <span id="rezTotal" style="color:#39ff14; font-size:1.5rem; font-weight:bold;">${cenaPoKarti}</span> RSD
+                </div>
 
-            <button id="btnPotvrdiRez" class="button" style="width:100%; background:#39ff14; color:black;">POTVRDI</button>
+                <button id="btnPotvrdiRez" class="button" style="width:100%; background:#39ff14; color:black;">POTVRDI</button>
+            </div>
         `;
 
-        modal.appendChild(content);
         document.body.appendChild(modal);
 
+        // Selektujemo elemente NAKON što su ubačeni u DOM
+        const closeBtn = modal.querySelector("#closeReservation");
+        const inp = modal.querySelector("#rezMesta");
+        const out = modal.querySelector("#rezTotal");
+        const btnPotvrdi = modal.querySelector("#btnPotvrdiRez");
+
+        // SADA close dugme radi jer mu dodeljujemo event na živ element
+        closeBtn.onclick = () => modal.remove();
+
         // Kalkulacija cene uživo
-        const inp = content.querySelector("#rezMesta");
-        const out = content.querySelector("#rezTotal");
-        
         inp.oninput = () => {
             const val = parseInt(inp.value) || 1;
             out.innerText = val * cenaPoKarti;
         };
 
         // Slanje na server
-        content.querySelector("#btnPotvrdiRez").onclick = async () => {
+        btnPotvrdi.onclick = async () => {
             const seats = parseInt(inp.value);
-            
-            // JSON koji odgovara tvom C# modelu
             const dto = {
                 id: self.crypto.randomUUID(),
                 username: this.username,
                 projekcijaID: p.id,
-                vremeProjekcije: p.vreme, // Bitno: C# trazi 'vremeProjekcije'
+                vremeProjekcije: p.vreme,
                 nazivFilma: p.nazivFilma,
                 nazivBioskopa: this.bioskopNaziv,
                 adresaBioskopa: this.bioskopAdresa,
@@ -244,22 +237,18 @@ export class ProjekcijePage {
                 ukupnaCena: seats * cenaPoKarti
             };
 
-            const token = localStorage.getItem("token");
-
             try {
+                const token = localStorage.getItem("token");
                 const r = await fetch("https://localhost:7172/api/Rezervacija/Rezervacija", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`
-                    }, 
+                    },
                     body: JSON.stringify(dto)
                 });
 
                 if (r.ok) {
-
-                    // Dodati fetch za imenu broja rezervisanih mesta
-
                     alert("Uspešno ste rezervisali kartu!");
                     modal.remove();
                 } else {
@@ -272,11 +261,8 @@ export class ProjekcijePage {
         };
     }
 
-    // ==========================================
-    // LOGIKA ZA ADMINA (CRUD)
-    // ==========================================
-
-    OpenFormModal(p = null) {
+    // LOGIKA ZA ADMINA
+     OpenFormModal(p = null) {
         const isEdit = p !== null;
         const modal = document.createElement("div");
         modal.className = "modal";
@@ -301,7 +287,7 @@ export class ProjekcijePage {
         const form = document.createElement("div");
         form.style.marginTop = "20px";
 
-        // 1. Film Select
+        // Film Select
         const lbl1 = document.createElement("div"); lbl1.innerText="FILM:"; lbl1.style.color="#39ff14";
         form.appendChild(lbl1);
         const selFilm = document.createElement("select"); selFilm.className="input";
@@ -315,7 +301,7 @@ export class ProjekcijePage {
         if(isEdit) selFilm.value = p.filmID;
         form.appendChild(selFilm);
 
-        // 2. Sala, Mesta, Cena, Vreme
+        // Sala, Mesta, Cena, Vreme
         const createInp = (lbl, val, type="text") => {
             const l = document.createElement("div"); l.innerText=lbl; l.style.color="#39ff14"; l.style.marginTop="10px";
             form.appendChild(l);
@@ -354,15 +340,15 @@ export class ProjekcijePage {
                 BrojMesta: parseInt(inMesta.value),
                 Vreme: inVreme.value,
                 Cena: parseFloat(inCena.value),
-                BrojRezervacija: 0,
                 Slika: isEdit ? p.slika : "" // Zadržavamo sliku ako je edit
             };
 
             const url = isEdit ? "https://localhost:7172/api/Projekcija/IzmeniProjekciju" : "https://localhost:7172/api/Projekcija/DodajProjekciju";
             const method = isEdit ? "PUT" : "POST";
-            const token = localStorage.getItem("token");
+		const token = localStorage.getItem("token");
 
             try {
+                const token = localStorage.getItem("token");
                 const r = await fetch(url, {
                     method: method,
                     headers: {
@@ -387,10 +373,9 @@ export class ProjekcijePage {
     }
 
     async DeleteProjekcija(id) {
-
-        const token = localStorage.getItem("token");
         if(!confirm("Da li ste sigurni da želite da obrišete projekciju?")) return;
         try {
+            const token = localStorage.getItem("token");
             const r = await fetch(`https://localhost:7172/api/Projekcija/ObrisiProjekciju/${this.bioskopId}/${id}`,
                 {
                     headers: {

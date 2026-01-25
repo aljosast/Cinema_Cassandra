@@ -1,8 +1,6 @@
 import { DrawBioskopiPage } from "./Bioskopi.js";
 
-// ==============================================
 // HEADER ZA ADMINA
-// ==============================================
 export function DrawAdminHeader(host, activePage) {
     host.innerHTML = "";
     
@@ -11,7 +9,7 @@ export function DrawAdminHeader(host, activePage) {
     host.appendChild(navBar);
 
     const logo = document.createElement("div");
-    logo.innerHTML = "🎬 CINEMA <span style='color:#39ff14'>ADMIN</span>";
+    logo.innerHTML = "🎬 CINEMA <span style='color:#000; background:#fff; padding: 2px 5px; border-radius:3px; margin-left:5px;'>ADMIN</span>";
     logo.classList.add("nav-logo");
     navBar.appendChild(logo);
 
@@ -28,12 +26,19 @@ export function DrawAdminHeader(host, activePage) {
         linksContainer.appendChild(btn);
     };
 
-    // 1. BIOSKOPI (Admin vidi sve opcije)
+    // BIOSKOPI (Admin)
     createNavBtn("BIOSKOPI", "bioskopi", () => {
         DrawBioskopiPage(true);
     });
 
-    // 2. KORISNICI (Admin panel za korisnike)
+    // FILMOVI
+    createNavBtn("FILMOVI", "filmovi", () => {
+        import("./main.js").then(m => {
+            m.DrawAdminPage();
+        });
+    });
+
+    // KORISNICI
     createNavBtn("KORISNICI", "korisnici", () => {
         import("./Korisnici.js").then(m => {
             const page = new m.KorisniciPage(host);
@@ -52,9 +57,9 @@ export function DrawAdminHeader(host, activePage) {
     navBar.appendChild(btnLogout);
 }
 
-// ==============================================
+
 // HEADER ZA KORISNIKA
-// ==============================================
+
 export function DrawUserHeader(host, activePage) {
     host.innerHTML = "";
 
@@ -80,21 +85,20 @@ export function DrawUserHeader(host, activePage) {
         linksContainer.appendChild(btn);
     };
 
-    // 1. BIOSKOPI
+    // BIOSKOPI
     createNavBtn("BIOSKOPI", "bioskopi", () => {
         DrawBioskopiPage(false); // false = nije admin
     });
 
-    // 2. MOJE PROJEKCIJE (OVO JE NOVO POVEZIVANJE!)
-    createNavBtn("MOJE PROJEKCIJE", "mojeprojekcije", () => {
+    // MOJE PROJEKCIJE 
+    createNavBtn("MOJE REZERVACIJE", "mojeprojekcije", () => {
         import("./MojeProjekcije.js").then(m => {
-            // Kreiramo instancu klase i crtamo stranicu
             const page = new m.MojeProjekcijePage(host);
             page.DrawPage();
         });
     });
 
-    // 3. MOJ PROFIL
+    // MOJ PROFIL
     createNavBtn("MOJ PROFIL", "profil", () => {
         import("./Profil.js").then(m => {
             const profilPage = new m.MojProfil(host);

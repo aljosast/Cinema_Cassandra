@@ -82,7 +82,6 @@ export class MojeProjekcijePage {
             const cena = rez.UkupnaCena || rez.ukupnaCena || 0;
 
             // Sala - Ako ne postoji u bazi, stavljamo "1" kao placeholder
-            // (Morao bi da dodaš kolonu "BrojSale" u tabelu Rezervacija ako želiš pravu salu)
             const sala = rez.BrojSale || rez.brojSale || "1"; 
 
             ticket.innerHTML = `

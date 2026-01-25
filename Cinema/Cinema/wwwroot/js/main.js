@@ -1,14 +1,13 @@
-import { Filmovi, layout } from "./Filmovi.js"; // Pretpostavljam da je ovo AdminMain.js preimenovan
+import { Filmovi, layout } from "./Filmovi.js"; 
 import { Home } from "./Home.js";
-import { DrawBioskopiPage } from "./Bioskopi.js"; // OVO NAM TREBA ZA KORISNIKA
+import { DrawBioskopiPage } from "./Bioskopi.js"; 
 import { DrawAdminHeader } from "./Navigation.js";
 
 const host = document.getElementById("app");
 let page = 0;
 let max_page = 0;
 
-// --- 1. POKRETANJE (LOGIN EKRAN) ---
-// Prvo čekamo da se učita DOM, za svaki slučaj
+// POKRETANJE (LOGIN EKRAN)
 document.addEventListener("DOMContentLoaded", () => {
     if (document.getElementById("app")) {
         initApp();
@@ -18,16 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
 export function initApp() {
     host.innerHTML = "";
     
-    // Callback funkcija koju Home.js poziva kad je login uspešan
     const onLoginSuccess = (role) => {
         console.log("Ulogovan kao:", role);
 
         if (role === "admin") {
-            // ADMIN -> Ide na listu filmova sa opcijama za editovanje
+            // ADMIN - Ide na listu vioskopa sa opcijama za editovanje
             DrawBioskopiPage(true);
         } else {
-            // KORISNIK -> Ide na listu bioskopa
-            // false znači: "Nije admin, sakrij dugmiće za brisanje i prikaži rezervaciju"
+            // KORISNIK - Ide na listu bioskopa
             DrawBioskopiPage(false); 
         }
     };
@@ -36,7 +33,7 @@ export function initApp() {
     homePage.DrawHomePage();
 }
 
-// --- 2. ADMIN STRANICA (LISTA FILMOVA) ---
+// ADMIN STRANICA (LISTA FILMOVA)
 export async function DrawAdminPage() {
     host.innerHTML = "";
     
@@ -48,14 +45,13 @@ export async function DrawAdminPage() {
     contentWrapper.style.textAlign = "center";
     host.appendChild(contentWrapper);
 
-    // Dugme + DODAJ NOVI FILM
+ //  DODAJ NOVI FILM
     const btnAdd = document.createElement("button");
     btnAdd.innerText = "+ DODAJ NOVI FILM";
     btnAdd.classList.add("button"); 
-    btnAdd.style.marginBottom = "30px";
-    btnAdd.style.fontSize = "1.1rem";
     btnAdd.onclick = () => { DrawInsertPage(); };
     contentWrapper.appendChild(btnAdd);
+
 
     const cardsContainer = document.createElement("div");
     cardsContainer.classList.add("CardRow");
@@ -78,7 +74,6 @@ export async function DrawAdminPage() {
             cardsContainer.innerHTML = "<h3 style='color:white'>Nema filmova.</h3>";
         } else {
             for (let d of data) {
-                // Koristimo AdminFilm klasu (koja se ovde zove Filmovi)
                 let film = new Filmovi(cardsContainer, d.id, d.naziv, d.zanr, d.reziser, d.dugiOpis, d.opis, d.slika, d.glumci);
                 film.Kartica();
             }
@@ -130,7 +125,7 @@ export async function DrawAdminPage() {
     }
 }
 
-// --- 3. FORMA ZA UNOS / IZMENU ---
+//FORMA ZA UNOS / IZMENU 
 export function DrawInsertPage(fid = "", naziv = "", zanr = "", opis = "", dugiOpis = "", reziser = "", slika = "", glumci = [], edit = false){
     host.innerHTML = "";
     layout(host); 

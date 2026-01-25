@@ -24,7 +24,6 @@ export class Bioskop {
             if (this.isAdmin) {
                 this.OtvoriAdminModal(); 
             } else {
-                // KORISNIK: Šaljemo false
                 DrawProjekcijePage(this.id, this.naziv, this.adresa, false); 
             }
         }

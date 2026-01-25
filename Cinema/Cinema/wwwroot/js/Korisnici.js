@@ -150,7 +150,6 @@ export class KorisniciPage {
         };
 
         const inUser = createInput("USERNAME", user.username);
-        // --- OBRISANO POLJE ZA PASSWORD ---
         const inIme = createInput("IME", user.ime);
         const inPrez = createInput("PREZIME", user.prezime);
         const inGod = createInput("GODINE", user.godine, "number");
