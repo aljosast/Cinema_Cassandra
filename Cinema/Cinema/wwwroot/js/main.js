@@ -28,9 +28,15 @@ export function initApp() {
             DrawBioskopiPage(false); 
         }
     };
+    const token = localStorage.getItem("token");
+    const savedRole = localStorage.getItem("role");
 
-    const homePage = new Home(host, onLoginSuccess);
-    homePage.DrawHomePage();
+    if (token && savedRole) {
+        onLoginSuccess(savedRole);
+    } else {
+        const homePage = new Home(host, onLoginSuccess);
+        homePage.DrawHomePage();
+    }
 }
 
 // ADMIN STRANICA (LISTA FILMOVA)

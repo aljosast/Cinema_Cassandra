@@ -11,5 +11,6 @@ namespace Cinema.DBManager.Entities
         public string AdresaBioskopa { get; set; }
         public int UkupnaCena { get; set; }
         public int BrojMesta { get; set; }
+        public string BioskopID { get; set; }
     }
 }

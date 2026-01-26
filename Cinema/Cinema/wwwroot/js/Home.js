@@ -298,6 +298,7 @@ export class Home {
                         // 2. ONDA IH KORISTIMO I ČUVAMO
                         localStorage.setItem("username", data.username);
                         localStorage.setItem("token", data.token);
+                        localStorage.setItem("role", data.role);
 
                         modal.remove();
                         
